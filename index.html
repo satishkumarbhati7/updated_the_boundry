@@ -3,332 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Boundary — IPL Dining | Delhi</title>
+<title>The Boundary — Cricket Dining | Delhi</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-:root{
-  --navy:#060b18;--deep:#0b1220;--card:#101827;--cardl:#141f31;
-  --gold:#f5c518;--amber:#f59e0b;--orange:#ea580c;--red:#dc2626;
-  --blue:#1d4ed8;--cyan:#06b6d4;--green:#16a34a;
-  --text:#e8eaf0;--muted:#7a8499;--border:rgba(245,197,24,0.13);
-  --glow:0 0 36px rgba(245,197,24,0.28);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--navy);color:var(--text);font-family:'Exo 2',sans-serif;overflow-x:hidden}
-
-/* ===== NAV ===== */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  background:rgba(6,11,24,0.96);backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border);height:64px;
-  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
-}
-.nav-logo{font-family:'Black Han Sans',sans-serif;font-size:1.45rem;color:var(--gold);cursor:pointer;display:flex;align-items:center;gap:8px}
-.nav-logo em{color:var(--text);font-style:normal}
-.nav-links{display:flex;gap:2px}
-.nav-link{padding:8px 13px;border-radius:8px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:var(--muted);transition:all .2s;border:none;background:none}
-.nav-link:hover,.nav-link.active{color:var(--gold);background:rgba(245,197,24,.09)}
-.nav-right{display:flex;align-items:center;gap:10px}
-.nav-cta{background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--navy)!important;padding:8px 18px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;cursor:pointer;border:none;font-size:.92rem;transition:all .2s}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:var(--glow)}
-.cart-icon{position:relative;cursor:pointer;padding:8px;color:var(--text);font-size:1.15rem}
-.cart-count{position:absolute;top:1px;right:1px;background:var(--red);color:#fff;width:17px;height:17px;border-radius:50%;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
-.hamburger span{width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s}
-.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;z-index:999;background:rgba(6,11,24,.98);border-bottom:1px solid var(--border);flex-direction:column;padding:12px 20px 20px;gap:4px}
-.mobile-menu.open{display:flex}
-.mobile-menu .nav-link{padding:12px 16px;border-radius:8px;font-size:1rem}
-
-/* ===== PAGES ===== */
-.page{display:none;position:relative;z-index:1;padding-top:64px;min-height:100vh}
-.page.active{display:block}
-
-/* ===== HERO ===== */
-.hero{
-  position:relative;min-height:calc(100vh - 64px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:40px 20px;overflow:hidden;
-}
-/* Stadium SVG sits as background */
-.hero-stadium{
-  position:absolute;inset:0;width:100%;height:100%;
-  pointer-events:none;overflow:hidden;
-}
-/* Overlay gradient atop SVG */
-.hero-overlay{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 100% 60% at 50% 100%, rgba(6,11,24,.98) 0%, rgba(6,11,24,.7) 40%, transparent 70%),
-    radial-gradient(ellipse 120% 30% at 50% 0%, rgba(6,11,24,.85) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(6,11,24,.6) 0%, transparent 25%, transparent 60%, rgba(6,11,24,.9) 100%);
-  pointer-events:none;
-}
-.hero-content{position:relative;z-index:2}
-.hero-eyebrow{font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:14px;opacity:0;animation:fadeUp .6s .2s forwards}
-.hero-title{font-family:'Black Han Sans',sans-serif;font-size:clamp(2.8rem,9vw,7rem);line-height:.9;margin-bottom:18px;opacity:0;animation:fadeUp .6s .4s forwards}
-.hero-title .t1{color:var(--text);display:block;text-shadow:0 0 60px rgba(245,197,24,.15)}
-.hero-title .t2{background:linear-gradient(135deg,var(--gold) 20%,var(--orange) 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;filter:drop-shadow(0 0 30px rgba(245,197,24,.4))}
-.hero-title .t3{color:var(--text);display:block;font-size:clamp(1.6rem,5vw,3.8rem);letter-spacing:6px}
-.hero-sub{font-size:1.05rem;color:rgba(232,234,240,.7);max-width:480px;line-height:1.65;margin-bottom:32px;opacity:0;animation:fadeUp .6s .6s forwards}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .6s .8s forwards}
-/* Live ticker */
-.live-ticker{
-  margin-top:30px;background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.4);
-  border-radius:12px;padding:13px 20px;max-width:620px;width:100%;
-  display:flex;align-items:center;gap:12px;
-  opacity:0;animation:fadeUp .6s 1s forwards;
-}
-.live-dot{width:9px;height:9px;background:var(--red);border-radius:50%;animation:blink 1s infinite;flex-shrink:0}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
-.live-text{font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:600}
-.live-score{color:var(--gold);font-weight:700}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-/* ===== SECTION ===== */
-section{padding:60px 20px;max-width:1180px;margin:0 auto}
-.sec-label{font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:8px}
-.sec-title{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.7rem,3.5vw,2.6rem);margin-bottom:6px;line-height:1.1}
-.sec-sub{color:var(--muted);font-size:.95rem;margin-bottom:32px;max-width:500px}
-.gold{color:var(--gold)}
-
-/* ===== BUTTONS ===== */
-.btn-p{background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--navy);padding:13px 26px;border-radius:10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,197,24,.38)}
-.btn-o{background:transparent;border:2px solid var(--gold);color:var(--gold);padding:12px 26px;border-radius:10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .25s}
-.btn-o:hover{background:rgba(245,197,24,.1);transform:translateY(-2px)}
-
-/* ===== CARDS ===== */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:18px}
-.dish-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
-.dish-card:hover{transform:translateY(-5px);border-color:rgba(245,197,24,.4);box-shadow:var(--glow)}
-.dish-img{width:100%;height:175px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;position:relative;overflow:hidden}
-.dish-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(6,11,24,.65))}
-.dish-body{padding:15px}
-.dish-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:3px}
-.dish-desc{font-size:.82rem;color:var(--muted);margin-bottom:11px;line-height:1.4}
-.dish-footer{display:flex;align-items:center;justify-content:space-between}
-.dish-price{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:var(--gold)}
-.add-btn{background:rgba(245,197,24,.13);border:1px solid rgba(245,197,24,.28);color:var(--gold);padding:6px 14px;border-radius:7px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s}
-.add-btn:hover{background:var(--gold);color:var(--navy)}
-.badge{position:absolute;top:11px;left:11px;z-index:1;padding:4px 9px;border-radius:6px;font-size:.68rem;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px}
-
-/* ===== SCOREBOARD ===== */
-.scoreboard{background:var(--card);border:2px solid rgba(245,197,24,.35);border-radius:16px;padding:22px;position:relative;overflow:hidden}
-.scoreboard::before{content:'LIVE';position:absolute;top:14px;right:14px;background:var(--red);color:#fff;padding:3px 9px;border-radius:5px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;animation:blink 1.2s infinite}
-.score-teams{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.team-score{text-align:center}
-.team-abbr{font-family:'Black Han Sans',sans-serif;font-size:2rem}
-.team-runs{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;margin-top:3px}
-.score-vs{font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:var(--muted);font-weight:600}
-.match-info-bar{text-align:center;padding:9px;background:rgba(245,197,24,.07);border-radius:8px;font-family:'Rajdhani',sans-serif;font-size:.88rem;color:var(--muted)}
-
-/* ===== MENU ===== */
-.menu-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.menu-tab{padding:9px 18px;border-radius:9px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.92rem;border:1px solid var(--border);color:var(--muted);transition:all .2s;background:transparent}
-.menu-tab.active,.menu-tab:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
-.menu-cat{display:none}
-.menu-cat.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:18px}
-
-/* ===== GAME ZONE ===== */
-.pred-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all .3s}
-.pred-card:hover{border-color:rgba(245,197,24,.35)}
-.pred-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.08rem;margin-bottom:5px}
-.pred-desc{font-size:.82rem;color:var(--muted);margin-bottom:14px}
-.pred-pts{display:inline-flex;align-items:center;gap:6px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.22);border-radius:6px;padding:4px 11px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:14px}
-.pred-opts{display:flex;flex-direction:column;gap:8px}
-.pred-opt{padding:11px 15px;border-radius:9px;border:1px solid var(--border);cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.02)}
-.pred-opt:hover{background:rgba(245,197,24,.07);border-color:rgba(245,197,24,.35)}
-.pred-opt.selected{background:rgba(245,197,24,.14);border-color:var(--gold);color:var(--gold)}
-.tlogo{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:900;color:#fff;flex-shrink:0}
-.sub-pred{width:100%;margin-top:14px;padding:12px;background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--navy);border:none;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.97rem;cursor:pointer;transition:all .2s}
-.sub-pred:hover{transform:translateY(-1px);box-shadow:var(--glow)}
-.sub-pred:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.lb-row{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:13px 15px;border-radius:9px;background:rgba(255,255,255,.02);border:1px solid transparent;transition:all .2s;margin-bottom:7px}
-.lb-row:hover{border-color:var(--border)}
-.lb-row.top3{border-color:rgba(245,197,24,.18);background:rgba(245,197,24,.05)}
-.r1{color:var(--gold)}.r2{color:#aaa}.r3{color:#cd7f32}
-.rank-n{font-family:'Black Han Sans',sans-serif;font-size:1.05rem;text-align:center}
-.pts-badge{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.22);padding:5px 12px;border-radius:7px;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--gold);font-size:.88rem}
-
-/* ===== OFFERS ===== */
-.coupon-card{background:var(--card);border:2px dashed rgba(245,197,24,.3);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:all .3s}
-.coupon-card:hover{border-color:var(--gold);transform:translateY(-3px)}
-.coupon-card::before{content:'';position:absolute;left:-1px;top:50%;transform:translateY(-50%);width:19px;height:19px;border-radius:50%;background:var(--navy);border:2px dashed rgba(245,197,24,.3)}
-.coupon-card::after{content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:19px;height:19px;border-radius:50%;background:var(--navy);border:2px dashed rgba(245,197,24,.3)}
-.coupon-pct{font-family:'Black Han Sans',sans-serif;font-size:2.8rem;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
-.coupon-code{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;background:rgba(245,197,24,.09);border:1px solid rgba(245,197,24,.22);display:inline-block;padding:5px 14px;border-radius:6px;letter-spacing:3px;color:var(--gold);margin:7px 0;cursor:pointer;transition:all .2s}
-.coupon-code:hover{background:rgba(245,197,24,.18)}
-.coupon-terms{font-size:.75rem;color:var(--muted);margin-top:6px}
-.match-offer{background:linear-gradient(135deg,var(--card),rgba(29,78,216,.18));border:1px solid rgba(29,78,216,.28);border-radius:15px;padding:22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;transition:all .3s}
-.match-offer:hover{border-color:var(--blue);transform:translateY(-2px)}
-
-/* ===== CONTACT ===== */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.form-grp{margin-bottom:16px}
-.form-lbl{display:block;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.88rem;color:var(--muted);margin-bottom:6px}
-.form-inp,.form-sel,.form-ta{width:100%;padding:12px 15px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);font-family:'Exo 2',sans-serif;font-size:.92rem;transition:all .2s;outline:none}
-.form-inp:focus,.form-sel:focus,.form-ta:focus{border-color:var(--gold);background:rgba(245,197,24,.04)}
-.form-sel option{background:var(--deep)}
-.form-ta{resize:vertical;min-height:95px}
-.map-box{background:var(--card);border:1px solid var(--border);border-radius:15px;height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted)}
-.info-card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:22px}
-.info-row{display:flex;gap:13px;align-items:flex-start;margin-bottom:16px}
-.info-ico{width:38px;height:38px;background:rgba(245,197,24,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold)}
-
-/* ===== PAGE HERO ===== */
-.page-hero{background:linear-gradient(135deg,var(--deep),var(--card));border-bottom:1px solid var(--border);padding:38px 20px;text-align:center}
-.page-hero h1{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.9rem,4.5vw,3.2rem);margin-bottom:7px}
-.page-hero p{color:var(--muted);max-width:500px;margin:0 auto}
-
-/* ===== STATS ===== */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin:32px 0}
-.stat-item{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:18px;text-align:center}
-.stat-val{font-family:'Black Han Sans',sans-serif;font-size:1.9rem;color:var(--gold);display:block}
-.stat-lbl{font-size:.78rem;color:var(--muted);margin-top:3px}
-
-/* ===== POINTS DISPLAY ===== */
-.pts-display{background:linear-gradient(135deg,rgba(245,197,24,.09),rgba(234,88,12,.09));border:1px solid rgba(245,197,24,.28);border-radius:15px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:14px}
-.pts-info .lbl{font-size:.82rem;color:var(--muted)}
-.pts-info .val{font-family:'Black Han Sans',sans-serif;font-size:1.9rem;color:var(--gold)}
-
-/* ===== TOAST ===== */
-.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(110px);background:var(--gold);color:var(--navy);padding:11px 22px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.97rem;z-index:9999;transition:transform .3s;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.5)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* ===== WHATSAPP ===== */
-.wa-float{position:fixed;bottom:22px;right:20px;z-index:9998;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.45);transition:all .25s;text-decoration:none;animation:waggle 4s 3s ease-in-out infinite}
-.wa-float:hover{transform:scale(1.1)}
-@keyframes waggle{0%,90%,100%{transform:rotate(0)}92%{transform:rotate(-14deg)}96%{transform:rotate(14deg)}}
-
-/* ===== CONFETTI ===== */
-.cpiece{position:fixed;top:-10px;z-index:9999;animation:cfall 2.5s ease-in forwards;pointer-events:none;border-radius:3px}
-@keyframes cfall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-
-/* ===== DIVIDER ===== */
-.divider{height:1px;background:var(--border);margin:18px 0}
-
-/* ===== REVEAL ===== */
-.reveal{opacity:0;transform:translateY(22px);transition:all .5s}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-/* ====================================================
-   SUB-ADMIN PANEL
-   ==================================================== */
-#admin-overlay{
-  display:none;position:fixed;inset:0;z-index:10000;
-  background:rgba(6,11,24,.97);backdrop-filter:blur(8px);
-  overflow-y:auto;
-}
-#admin-overlay.open{display:block}
-.admin-wrap{max-width:900px;margin:0 auto;padding:30px 20px 60px}
-.admin-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);
-}
-.admin-logo{font-family:'Black Han Sans',sans-serif;font-size:1.6rem;color:var(--gold)}
-.admin-logo span{font-size:.85rem;color:var(--muted);font-family:'Exo 2',sans-serif;display:block;font-weight:400}
-.close-admin{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:var(--red);padding:9px 18px;border-radius:8px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem}
-/* Admin Login */
-#admin-login{max-width:380px;margin:80px auto;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:36px}
-#admin-login h2{font-family:'Black Han Sans',sans-serif;font-size:1.8rem;margin-bottom:6px}
-#admin-login p{color:var(--muted);font-size:.88rem;margin-bottom:24px}
-#admin-panel{display:none}
-#admin-panel.open{display:block}
-/* Admin Tabs */
-.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.atab{padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.92rem;border:1px solid var(--border);color:var(--muted);transition:all .2s;background:transparent}
-.atab.active,.atab:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
-.apanel{display:none}
-.apanel.active{display:block}
-/* Admin Form */
-.af-grp{margin-bottom:18px}
-.af-lbl{display:block;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.88rem;color:var(--muted);margin-bottom:7px}
-.af-inp,.af-sel,.af-ta{width:100%;padding:12px 15px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);font-family:'Exo 2',sans-serif;font-size:.92rem;transition:all .2s;outline:none}
-.af-inp:focus,.af-sel:focus,.af-ta:focus{border-color:var(--gold);background:rgba(245,197,24,.05)}
-.af-sel option{background:var(--deep)}
-.af-ta{min-height:90px;resize:vertical}
-.af-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-/* Admin Cards */
-.admin-card{background:var(--cardl);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
-.admin-card h3{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-/* Match preview */
-.match-preview{background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.18);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-/* Upload box */
-.upload-box{
-  border:2px dashed rgba(245,197,24,.25);border-radius:11px;padding:28px;
-  text-align:center;cursor:pointer;transition:all .25s;
-  background:rgba(245,197,24,.03);
-}
-.upload-box:hover{border-color:var(--gold);background:rgba(245,197,24,.07)}
-.upload-box input[type=file]{display:none}
-.upload-preview{width:100%;height:160px;object-fit:cover;border-radius:8px;margin-top:12px;display:none}
-/* Announcements */
-.ann-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.ann-text{flex:1;font-size:.9rem;line-height:1.5}
-.ann-del{background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.25);color:var(--red);padding:5px 10px;border-radius:7px;cursor:pointer;font-size:.8rem;font-family:'Rajdhani',sans-serif;font-weight:700;flex-shrink:0}
-/* Save btn */
-.save-btn{background:linear-gradient(135deg,var(--gold),var(--amber));color:var(--navy);padding:12px 28px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.97rem;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;gap:8px}
-.save-btn:hover{transform:translateY(-1px);box-shadow:var(--glow)}
-.danger-btn{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.3);color:var(--red);padding:10px 20px;border-radius:9px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem}
-/* Status */
-.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
-.status-live{background:var(--red);animation:blink 1s infinite}
-.status-soon{background:var(--amber)}
-.status-done{background:var(--muted)}
-/* Upcoming match rows */
-.um-row{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.um-row .teams{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;flex:1}
-.um-row .meta{font-size:.8rem;color:var(--muted)}
-
-/* ===== FOOTER ===== */
-footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20px;text-align:center;position:relative;z-index:1}
-.foot-logo{font-family:'Black Han Sans',sans-serif;font-size:1.7rem;color:var(--gold)}
-.foot-tag{color:var(--muted);font-size:.88rem;margin:7px 0 18px}
-.foot-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px}
-.foot-link{color:var(--muted);font-size:.88rem;cursor:pointer;transition:color .2s}
-.foot-link:hover{color:var(--gold)}
-.foot-copy{font-size:.77rem;color:rgba(122,132,153,.5)}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-  .nav-links{display:none}
-  .hamburger{display:flex}
-  nav .nav-cta{display:none}
-  .contact-grid{grid-template-columns:1fr}
-  .af-grid{grid-template-columns:1fr}
-  section{padding:40px 16px}
-}
-
-/* Banner announcement bar */
-#announcement-bar{
-  background:linear-gradient(90deg,var(--orange),var(--red));
-  padding:9px 20px;text-align:center;
-  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;
-  position:relative;z-index:999;display:none;
-}
-#announcement-bar.visible{display:block}
-
-/* Hero banner override (admin-set) */
-#hero-custom-banner{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;opacity:0;transition:opacity .5s;pointer-events:none;z-index:0;
-}
-#hero-custom-banner.visible{opacity:0.22}
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <!-- ANNOUNCEMENT BAR -->
 <div id="announcement-bar">
   <span id="ann-bar-text">🔥 MATCH DAY: MI vs CSK Tonight! Order during the match and get 3× Points on all orders!</span>
-  <span style="margin-left:12px;opacity:.7;cursor:pointer;font-size:1rem" onclick="document.getElementById('announcement-bar').style.display='none'">✕</span>
+  <span style="margin-left:12px;opacity:.7;cursor:pointer;font-size:1rem" onclick="document.getElementById('announcement-bar').style.display='none';saveAdminState({announcementBar:{visible:false}})">✕</span>
 </div>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" onclick="showPage('home')">🏏 The <em>Boundary</em></div>
+  <button class="brand" onclick="showPage('home')" aria-label="The Boundary — go to home page">
+    <span class="brand-badge"><img src="assets/logo.png" alt="The Boundary logo"></span>
+    <span class="brand-text">
+      <span class="brand-word"><span class="b1">The</span> <span class="b2">Boundary</span></span>
+      <span class="brand-kicker">In Delhi · Cricket Dining</span>
+    </span>
+  </button>
   <div class="nav-links">
     <button class="nav-link active" onclick="showPage('home')">Home</button>
     <button class="nav-link" onclick="showPage('menu')">Menu</button>
@@ -337,6 +34,9 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
     <button class="nav-link" onclick="showPage('contact')">Book Table</button>
   </div>
   <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Switch between dark and light mode" title="Switch theme">
+      <i class="fas fa-moon"></i>
+    </button>
     <div class="cart-icon" onclick="showToast('🛒 Cart: sign in to checkout!')">
       <i class="fas fa-shopping-cart"></i>
       <span class="cart-count" id="cartCount">0</span>
@@ -362,7 +62,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
   <div class="hero" id="main-hero">
 
     <!-- Custom admin banner image layer -->
-    <img id="hero-custom-banner" src="" alt="">
+    <img id="hero-custom-banner" alt="">
 
     <!-- CRICKET STADIUM SVG BACKGROUND -->
     <div class="hero-stadium">
@@ -654,7 +354,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
 
     <!-- HERO CONTENT -->
     <div class="hero-content">
-      <div class="hero-eyebrow" id="hero-eyebrow-text">🏟️ IPL Season 2026 — Delhi's Premier Cricket ID</div>
+      <div class="hero-eyebrow" id="hero-eyebrow-text">🏟️ Delhi's Premier Cricket ID · In Delhi The Boundary</div>
       <h1 class="hero-title">
         <span class="t1">DINING. GLORY. FUN</span>
         <span class="t2" id="hero-main-text">with THE BOUNDARY</span>
@@ -705,8 +405,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
     <h2 class="sec-title">Signature <span class="gold">Dishes</span></h2>
     <div class="cards-grid">
       <div class="dish-card reveal">
-        <div class="dish-img" style="background:linear-gradient(135deg,#1a2a0a,#2a3a0a)">
-          <span style="position:relative;z-index:1">🍛</span>
+        <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/boundary-biryani.jpg') center/cover no-repeat">
           <span class="badge" style="background:var(--red);color:#fff">🔥 HOT</span>
         </div>
         <div class="dish-body">
@@ -716,9 +415,8 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
         </div>
       </div>
       <div class="dish-card reveal">
-        <div class="dish-img" style="background:linear-gradient(135deg,#2a1a0a,#3a2a0a)">
-          <span style="position:relative;z-index:1">🍗</span>
-          <span class="badge" style="background:var(--gold);color:var(--navy)">IPL SPECIAL</span>
+        <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/six-spice-chicken.jpg') center/cover no-repeat">
+          <span class="badge" style="background:var(--gold);color:var(--ink)">IPL SPECIAL</span>
         </div>
         <div class="dish-body">
           <div class="dish-name">Six-Spice Chicken</div>
@@ -727,8 +425,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
         </div>
       </div>
       <div class="dish-card reveal">
-        <div class="dish-img" style="background:linear-gradient(135deg,#0a1a2a,#0a2a1a)">
-          <span style="position:relative;z-index:1">🥗</span>
+        <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/champions-thali.jpg') center/cover no-repeat">
           <span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span>
         </div>
         <div class="dish-body">
@@ -738,8 +435,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
         </div>
       </div>
       <div class="dish-card reveal">
-        <div class="dish-img" style="background:linear-gradient(135deg,#2a0a1a,#1a0a2a)">
-          <span style="position:relative;z-index:1">🎉</span>
+        <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/appetizer,platter') center/cover no-repeat">
           <span class="badge" style="background:var(--blue);color:#fff">GROUP</span>
         </div>
         <div class="dish-body">
@@ -785,27 +481,35 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
       <button class="menu-tab" onclick="switchMenu(this,'combos')">🎁 Combos</button>
     </div>
     <div class="menu-cat active" id="cat-veg">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#1a2a1a,#0a1a0a)"><span style="position:relative;z-index:1">🫕</span></div><div class="dish-body"><div class="dish-name">Paneer Tikka Masala</div><div class="dish-desc">Creamy tomato gravy with charred paneer.</div><div class="dish-footer"><div class="dish-price">₹269</div><button class="add-btn" onclick="addToCart(this,'Paneer Tikka')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#1a1a0a,#2a2a0a)"><span style="position:relative;z-index:1">🍛</span></div><div class="dish-body"><div class="dish-name">Dal Makhani</div><div class="dish-desc">Slow-cooked overnight black lentils in butter gravy.</div><div class="dish-footer"><div class="dish-price">₹229</div><button class="add-btn" onclick="addToCart(this,'Dal Makhani')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#2a1a0a,#1a0a0a)"><span style="position:relative;z-index:1">🥘</span><span class="badge" style="background:var(--red);color:#fff">HOT</span></div><div class="dish-body"><div class="dish-name">Veg Biryani Royale</div><div class="dish-desc">Fragrant basmati with seasonal vegetables & rose water.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Veg Biryani')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/paneer,tikka') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Paneer Tikka Masala</div><div class="dish-desc">Creamy tomato gravy with charred paneer.</div><div class="dish-footer"><div class="dish-price">₹269</div><button class="add-btn" onclick="addToCart(this,'Paneer Tikka')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/dal,makhani') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Dal Makhani</div><div class="dish-desc">Slow-cooked overnight black lentils in butter gravy.</div><div class="dish-footer"><div class="dish-price">₹229</div><button class="add-btn" onclick="addToCart(this,'Dal Makhani')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/veg-biryani.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">HOT</span></div><div class="dish-body"><div class="dish-name">Veg Biryani Royale</div><div class="dish-desc">Fragrant basmati with seasonal vegetables & rose water.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Veg Biryani')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/shahi,paneer') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Shahi Paneer</div><div class="dish-desc">Paneer in a rich cashew &amp; saffron royal gravy.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Shahi Paneer')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/mushroom,curry') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Paneer Mushroom Curry</div><div class="dish-desc">Paneer &amp; button mushrooms in spiced onion-tomato masala.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Paneer Mushroom Curry')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/champions-thali.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">FULL MEAL</span></div><div class="dish-body"><div class="dish-name">Champion's Thali</div><div class="dish-desc">Dal makhani, paneer tikka, roti, raita &amp; dessert.</div><div class="dish-footer"><div class="dish-price">₹399</div><button class="add-btn" onclick="addToCart(this,'Champion Thali')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-nonveg">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#2a0a0a,#1a0a0a)"><span style="position:relative;z-index:1">🍗</span><span class="badge" style="background:var(--gold);color:var(--navy)">BEST</span></div><div class="dish-body"><div class="dish-name">Boundary Biryani</div><div class="dish-desc">Hyderabadi mutton dum biryani with saffron.</div><div class="dish-footer"><div class="dish-price">₹349</div><button class="add-btn" onclick="addToCart(this,'Boundary Biryani')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#1a0a1a,#2a0a1a)"><span style="position:relative;z-index:1">🍖</span></div><div class="dish-body"><div class="dish-name">Six-Spice Chicken</div><div class="dish-desc">Tandoori grilled in six signature spices.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Six-Spice Chicken')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#0a1a2a,#1a0a2a)"><span style="position:relative;z-index:1">🦐</span></div><div class="dish-body"><div class="dish-name">Coastal Prawn Curry</div><div class="dish-desc">Tiger prawns in coconut & tamarind gravy.</div><div class="dish-footer"><div class="dish-price">₹419</div><button class="add-btn" onclick="addToCart(this,'Prawn Curry')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/boundary-biryani.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">BEST</span></div><div class="dish-body"><div class="dish-name">Boundary Biryani</div><div class="dish-desc">Hyderabadi mutton dum biryani with saffron.</div><div class="dish-footer"><div class="dish-price">₹349</div><button class="add-btn" onclick="addToCart(this,'Boundary Biryani')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/six-spice-chicken.jpg') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Six-Spice Chicken</div><div class="dish-desc">Tandoori grilled in six signature spices.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Six-Spice Chicken')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/prawn,curry') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Coastal Prawn Curry</div><div class="dish-desc">Tiger prawns in coconut & tamarind gravy.</div><div class="dish-footer"><div class="dish-price">₹419</div><button class="add-btn" onclick="addToCart(this,'Prawn Curry')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-starters">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#2a2a0a,#1a1a0a)"><span style="position:relative;z-index:1">🧅</span></div><div class="dish-body"><div class="dish-name">Crispy Onion Bhaji</div><div class="dish-desc">Golden bhajis with tamarind chutney (8 pcs).</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Onion Bhaji')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#0a2a1a,#0a1a2a)"><span style="position:relative;z-index:1">🥙</span><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Masala Nachos</div><div class="dish-desc">Loaded nachos with tikka masala & cheese.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Masala Nachos')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/onion,pakora') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Crispy Onion Bhaji</div><div class="dish-desc">Golden bhajis with tamarind chutney (8 pcs).</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Onion Bhaji')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/masala-nachos.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Masala Nachos</div><div class="dish-desc">Loaded nachos with tikka masala & cheese.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Masala Nachos')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/grilled,fish') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Grill Fish</div><div class="dish-desc">Char-grilled fillet with lemon, garlic &amp; herb butter.</div><div class="dish-footer"><div class="dish-price">₹329</div><button class="add-btn" onclick="addToCart(this,'Grill Fish')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/crispy,lamb') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Crispy Lamb</div><div class="dish-desc">Crispy-fried lamb strips tossed with chilli &amp; curry leaf.</div><div class="dish-footer"><div class="dish-price">₹359</div><button class="add-btn" onclick="addToCart(this,'Crispy Lamb')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-drinks">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#0a1a2a,#0a2a1a)"><span style="position:relative;z-index:1">🥭</span><span class="badge" style="background:var(--gold);color:var(--navy)">SEASONAL</span></div><div class="dish-body"><div class="dish-name">Mango Lassi</div><div class="dish-desc">Thick Alphonso mango lassi, lightly sweetened.</div><div class="dish-footer"><div class="dish-price">₹99</div><button class="add-btn" onclick="addToCart(this,'Mango Lassi')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#0a2a2a,#2a1a0a)"><span style="position:relative;z-index:1">🍋</span></div><div class="dish-body"><div class="dish-name">Nimbu Pani Special</div><div class="dish-desc">Black salt lemonade with mint & cumin.</div><div class="dish-footer"><div class="dish-price">₹69</div><button class="add-btn" onclick="addToCart(this,'Nimbu Pani')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(135deg,#1a0a1a,#0a1a0a)"><span style="position:relative;z-index:1">🧃</span></div><div class="dish-body"><div class="dish-name">IPL Mocktail</div><div class="dish-desc">Team-coloured mocktail of the day!</div><div class="dish-footer"><div class="dish-price">₹129</div><button class="add-btn" onclick="addToCart(this,'IPL Mocktail')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/mango-lassi.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">SEASONAL</span></div><div class="dish-body"><div class="dish-name">Mango Lassi</div><div class="dish-desc">Thick Alphonso mango lassi, lightly sweetened.</div><div class="dish-footer"><div class="dish-price">₹99</div><button class="add-btn" onclick="addToCart(this,'Mango Lassi')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/shikanji.jpg') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Shikanji</div><div class="dish-desc">Masala lemonade with black salt, cumin &amp; mint.</div><div class="dish-footer"><div class="dish-price">₹69</div><button class="add-btn" onclick="addToCart(this,'Shikanji')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/colorful,mocktail') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">IPL Mocktail</div><div class="dish-desc">Team-coloured mocktail of the day!</div><div class="dish-footer"><div class="dish-price">₹129</div><button class="add-btn" onclick="addToCart(this,'IPL Mocktail')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/mojito.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Mojito</div><div class="dish-desc">Fresh mint &amp; lime muddled over crushed ice.</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Mojito')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/blue-margarita.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Blue Margarita</div><div class="dish-desc">Blue curaçao, lime &amp; a salted rim over ice.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Blue Margarita')">+ Add</button></div></div></div>
+      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/strawberry-margarita.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Strawberry Margarita</div><div class="dish-desc">Fresh strawberry blended with lime &amp; crushed ice.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Strawberry Margarita')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-combos">
-      <div class="dish-card" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(135deg,#2a1a0a,#0a2a0a)"><span style="position:relative;z-index:1">🎯</span><span class="badge" style="background:var(--gold);color:var(--navy)">BEST VALUE</span></div><div class="dish-body"><div class="dish-name">Century Combo</div><div class="dish-desc">Biryani + Starters + Dessert + Drink for 2.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹899</del> ₹699</div><button class="add-btn" onclick="addToCart(this,'Century Combo')">+ Add</button></div></div></div>
-      <div class="dish-card" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(135deg,#0a1a2a,#2a0a1a)"><span style="position:relative;z-index:1">🏟️</span><span class="badge" style="background:var(--red);color:#fff">GROUP</span></div><div class="dish-body"><div class="dish-name">Stadium Pack (4 pax)</div><div class="dish-desc">4 mains + 2 starters + 4 drinks.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹2400</del> ₹1799</div><button class="add-btn" onclick="addToCart(this,'Stadium Pack')">+ Add</button></div></div></div>
+      <div class="dish-card" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/century-combo.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">BEST VALUE</span></div><div class="dish-body"><div class="dish-name">Century Combo</div><div class="dish-desc">Biryani + Starters + Dessert + Drink for 2.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹899</del> ₹699</div><button class="add-btn" onclick="addToCart(this,'Century Combo')">+ Add</button></div></div></div>
+      <div class="dish-card" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/stadium-pack.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">GROUP</span></div><div class="dish-body"><div class="dish-name">Stadium Pack (4 pax)</div><div class="dish-desc">4 mains + 2 starters + 4 drinks.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹2400</del> ₹1799</div><button class="add-btn" onclick="addToCart(this,'Stadium Pack')">+ Add</button></div></div></div>
     </div>
   </section>
 </div>
@@ -814,7 +518,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
      GAME ZONE
      ============================================================ -->
 <div class="page" id="page-gamezone">
-  <div class="page-hero"><h1>🏆 IPL <span style="color:var(--gold)">Game Zone</span></h1><p>Predict. Earn points. Redeem for discounts up to 50% OFF!</p></div>
+  <div class="page-hero"><h1>🏆 <span style="color:var(--gold)">Game Zone</span></h1><p>Predict. Earn points. Redeem for discounts up to 50% OFF!</p></div>
   <section>
     <div class="pts-display">
       <div class="pts-info"><div class="lbl">Your Points</div><div class="val" id="userPoints">125</div></div>
@@ -838,7 +542,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
       <div class="pred-card"><div class="pred-title">🏆 Match Winner</div><div class="pred-desc">Who lifts the trophy tonight?</div><div class="pred-pts"><i class="fas fa-star"></i> +25 Points</div><div class="pred-opts"><div class="pred-opt" onclick="selectOption(this,'match')"><div class="tlogo" style="background:#004C97">MI</div>Mumbai Indians</div><div class="pred-opt" onclick="selectOption(this,'match')"><div class="tlogo" style="background:#fbbf24;color:#000">CSK</div>Chennai Super Kings</div></div><button class="sub-pred" onclick="submitPrediction(this,'match',25)">Submit Prediction</button></div>
       <div class="pred-card"><div class="pred-title">🏏 Highest Scorer</div><div class="pred-desc">Who dominates the bat today?</div><div class="pred-pts"><i class="fas fa-star"></i> +50 Points</div><div class="pred-opts"><div class="pred-opt" onclick="selectOption(this,'scorer')"><div class="tlogo" style="background:#004C97">MI</div>Rohit Sharma</div><div class="pred-opt" onclick="selectOption(this,'scorer')"><div class="tlogo" style="background:#004C97">MI</div>Suryakumar Yadav</div><div class="pred-opt" onclick="selectOption(this,'scorer')"><div class="tlogo" style="background:#fbbf24;color:#000">CSK</div>Ruturaj Gaikwad</div></div><button class="sub-pred" onclick="submitPrediction(this,'scorer',50)">Submit Prediction</button></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start">
+    <div class="gz-grid">
       <div>
         <h3 style="font-family:'Black Han Sans',sans-serif;font-size:1.4rem;margin-bottom:18px">🏅 Top <span class="gold">Predictors</span></h3>
         <div class="lb-row top3"><div class="rank-n r1">1</div><div><div style="font-family:'Rajdhani',sans-serif;font-weight:700">Arjun Kapoor</div><div style="font-size:.77rem;color:var(--muted)">🔵 MI Fan · 12 correct</div></div><div class="pts-badge">2450 pts</div></div>
@@ -889,26 +593,26 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
       <div>
         <h3 style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:18px">Table Reservation</h3>
         <div class="form-grp"><label class="form-lbl">Full Name</label><input type="text" class="form-inp" placeholder="Your name" id="bookName"></div>
-        <div class="form-grp"><label class="form-lbl">Phone</label><input type="tel" class="form-inp" placeholder="+91 98765 43210" id="bookPhone"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+        <div class="form-grp"><label class="form-lbl">Phone</label><input type="tel" class="form-inp" placeholder="+91 72900 68096" id="bookPhone"></div>
+        <div class="dt-grid">
           <div class="form-grp"><label class="form-lbl">Date</label><input type="date" class="form-inp" id="bookDate"></div>
           <div class="form-grp"><label class="form-lbl">Time</label><select class="form-sel" id="bookTime"><option>12:00 PM</option><option>1:00 PM</option><option>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option><option>10:00 PM</option></select></div>
         </div>
-        <div class="form-grp"><label class="form-lbl">Guests</label><select class="form-sel"><option>1-2</option><option>3-4</option><option>5-8</option><option>9+</option></select></div>
-        <div class="form-grp"><label class="form-lbl">Special Requests</label><textarea class="form-ta" placeholder="Match seating, dietary needs, celebration..."></textarea></div>
+        <div class="form-grp"><label class="form-lbl">Guests</label><select class="form-sel" id="bookGuests"><option>1-2</option><option>3-4</option><option>5-8</option><option>9+</option></select></div>
+        <div class="form-grp"><label class="form-lbl">Special Requests</label><textarea class="form-ta" id="bookNotes" placeholder="Match seating, dietary needs, celebration..."></textarea></div>
         <button class="btn-p" style="width:100%;justify-content:center;padding:14px" onclick="submitBooking()"><i class="fas fa-calendar-check"></i> Confirm Reservation</button>
-        <p style="text-align:center;font-size:.79rem;color:var(--muted);margin-top:10px">Or call: <strong style="color:var(--gold)">+91 98765 43210</strong></p>
+        <p style="text-align:center;font-size:.79rem;color:var(--muted);margin-top:10px">Or call: <strong style="color:var(--gold)">+91 72900 68096</strong></p>
       </div>
       <div>
         <div class="info-card" style="margin-bottom:18px">
           <h3 style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:18px">Restaurant Info</h3>
           <div class="info-row"><div class="info-ico"><i class="fas fa-map-marker-alt"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Address</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">42 Cricket Lane, Connaught Place, Delhi – 110001</div></div></div>
           <div class="info-row"><div class="info-ico"><i class="fas fa-clock"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Hours</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">Mon–Fri: 12PM–11PM · Sat–Sun: 11AM–12AM</div></div></div>
-          <div class="info-row"><div class="info-ico"><i class="fas fa-phone"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Phone</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">+91 98765 43210</div></div></div>
+          <div class="info-row"><div class="info-ico"><i class="fas fa-phone"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Phone</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">+91 72900 68096</div></div></div>
           <div class="divider"></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <a href="https://wa.me/919876543210?text=Hi%2C+I+want+to+book+a+table+at+The+Boundary!" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:9px;color:#25D366;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fab fa-whatsapp" style="font-size:1.1rem"></i> WhatsApp</a>
-            <a href="tel:+919876543210" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.28);border-radius:9px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fas fa-phone"></i> Call Now</a>
+            <a href="https://wa.me/917290068096?text=Hi%2C+I+want+to+book+a+table+at+The+Boundary!" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:9px;color:#25D366;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fab fa-whatsapp" style="font-size:1.1rem"></i> WhatsApp</a>
+            <a href="tel:+917290068096" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.28);border-radius:9px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fas fa-phone"></i> Call Now</a>
           </div>
         </div>
         <div class="map-box">
@@ -924,8 +628,14 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-logo">🏏 The Boundary</div>
-  <div class="foot-tag">Delhi's Home of Cricket Dining · IPL Season 2026</div>
+  <div class="foot-brand">
+    <span class="foot-brand-badge"><img src="assets/logo.png" alt="The Boundary logo"></span>
+    <div>
+      <div class="foot-logo"><span class="b1">The</span> <span class="b2">Boundary</span></div>
+      <div class="foot-logo-sub">In Delhi · Cricket Dining</div>
+    </div>
+  </div>
+  <div class="foot-tag">Delhi's Home of Cricket Dining · Season 2026</div>
   <div class="foot-links">
     <span class="foot-link" onclick="showPage('home')">Home</span>
     <span class="foot-link" onclick="showPage('menu')">Menu</span>
@@ -933,7 +643,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
     <span class="foot-link" onclick="showPage('offers')">Offers</span>
     <span class="foot-link" onclick="showPage('contact')">Contact</span>
   </div>
-  <div class="foot-copy">© 2025 The Boundary Restaurant, New Delhi. All rights reserved.</div>
+  <div class="foot-copy">© 2026 The Boundary Restaurant, New Delhi. All rights reserved.</div>
 </footer>
 
 <!-- WhatsApp -->
@@ -961,12 +671,9 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
     <div id="admin-login">
       <h2>🔐 Sub-Admin <span style="color:var(--gold)">Login</span></h2>
       <p>Enter your credentials to access the content management panel.</p>
-      <div class="af-grp"><label class="af-lbl">Username</label><input type="text" class="af-inp" id="adminUser" placeholder="subadmin" value="subadmin"></div>
-      <div class="af-grp"><label class="af-lbl">Password</label><input type="password" class="af-inp" id="adminPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="af-grp"><label class="af-lbl">Username</label><input type="text" class="af-inp" id="adminUser" placeholder="Username" autocomplete="off"></div>
+      <div class="af-grp"><label class="af-lbl">Password</label><input type="password" class="af-inp" id="adminPass" placeholder="Enter password" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()"></div>
       <button class="save-btn" onclick="doLogin()" style="width:100%;justify-content:center;margin-top:8px"><i class="fas fa-sign-in-alt"></i> Login to Panel</button>
-      <div style="margin-top:14px;padding:12px;background:rgba(245,197,24,.07);border-radius:8px;font-size:.82rem;color:var(--muted)">
-        Demo credentials: <strong style="color:var(--gold)">subadmin / boundary2025</strong>
-      </div>
       <button onclick="closeAdmin()" style="width:100%;margin-top:10px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px;border-radius:8px;cursor:pointer;font-family:'Exo 2',sans-serif">← Back to Website</button>
     </div>
 
@@ -1028,7 +735,8 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
       <!-- ---- UPCOMING MATCHES ---- -->
       <div class="apanel" id="ap-upcoming">
         <div class="admin-card">
-          <h3>➕ Add Upcoming Match</h3>
+          <h3 id="um-form-title">➕ Add Upcoming Match</h3>
+          <input type="hidden" id="um-edit-index" value="-1">
           <div class="af-grid">
             <div class="af-grp"><label class="af-lbl">Team 1</label><input class="af-inp" id="um-t1" placeholder="e.g. RCB"></div>
             <div class="af-grp"><label class="af-lbl">Team 2</label><input class="af-inp" id="um-t2" placeholder="e.g. KKR"></div>
@@ -1039,10 +747,13 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
           </div>
           <div class="af-grp"><label class="af-lbl">Venue</label><input class="af-inp" id="um-venue" placeholder="Stadium name"></div>
           <div class="af-grp"><label class="af-lbl">Special Offer for this match</label><input class="af-inp" id="um-offer" placeholder="e.g. Free Nachos if RCB wins!"></div>
-          <button class="save-btn" onclick="addUpcomingMatch()"><i class="fas fa-plus"></i> Add Match</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="save-btn" id="um-submit-btn" onclick="saveUpcomingMatch()"><i class="fas fa-plus"></i> Add Match</button>
+            <button class="danger-btn" id="um-cancel-btn" onclick="cancelEditMatch()" style="display:none">Cancel Edit</button>
+          </div>
         </div>
         <div class="admin-card">
-          <h3>📋 Upcoming Match List <span style="font-size:.8rem;color:var(--muted);font-family:'Exo 2',sans-serif;font-weight:400">(click × to remove)</span></h3>
+          <h3>📋 Upcoming Match List <span style="font-size:.8rem;color:var(--muted);font-family:'Exo 2',sans-serif;font-weight:400">(edit or remove)</span></h3>
           <div id="um-list"></div>
         </div>
       </div>
@@ -1067,9 +778,9 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
         </div>
         <div class="admin-card">
           <h3>✏️ Hero Text Editor</h3>
-          <div class="af-grp"><label class="af-lbl">Eyebrow Text (small top label)</label><input class="af-inp" id="ht-eyebrow" value="🏟️ IPL Season 2025 — Delhi's Premier Cricket Dining"></div>
-          <div class="af-grp"><label class="af-lbl">Main Headline (gold gradient line)</label><input class="af-inp" id="ht-main" value="FOOD. GLORY."></div>
-          <div class="af-grp"><label class="af-lbl">Sub-Headline (small line below)</label><input class="af-inp" id="ht-sub" value="THE BOUNDARY"></div>
+          <div class="af-grp"><label class="af-lbl">Eyebrow Text (small top label)</label><input class="af-inp" id="ht-eyebrow" value="🏟️ Delhi's Premier Cricket ID · In Delhi The Boundary"></div>
+          <div class="af-grp"><label class="af-lbl">Main Headline (gold gradient line)</label><input class="af-inp" id="ht-main" value="with THE BOUNDARY"></div>
+          <div class="af-grp"><label class="af-lbl">Sub-Headline (small line below)</label><input class="af-inp" id="ht-sub" value="Delhi's #1 Cricket Dining Experience"></div>
           <div class="af-grp"><label class="af-lbl">Description Paragraph</label><textarea class="af-ta" id="ht-para">Delhi's ultimate match-day dining experience. Watch live IPL, predict winners, earn points, and unlock exclusive offers.</textarea></div>
           <button class="save-btn" onclick="saveHeroText()"><i class="fas fa-save"></i> Update Hero Text</button>
         </div>
@@ -1152,308 +863,6 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:38px 20
   </div><!-- /admin-wrap -->
 </div><!-- /admin-overlay -->
 
-<script>
-// ===== STATE =====
-let cartCount = 0;
-let userPoints = 125;
-let upcomingMatches = [
-  { t1:'MI', t2:'CSK', date:'2025-04-02', time:'19:30', venue:'Wankhede Stadium', offer:'3× Points during match!' },
-  { t1:'RCB', t2:'KKR', date:'2025-04-04', time:'15:30', venue:'Chinnaswamy Stadium', offer:'Free Nachos if RCB wins!' },
-  { t1:'RR', t2:'DC', date:'2025-04-06', time:'19:30', venue:'Sawai Mansingh Stadium', offer:'20% OFF on IPL combos' },
-];
-const predictionState = {};
-
-// ===== NAV =====
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  const map={home:0,menu:1,gamezone:2,offers:3,contact:4};
-  if(map[id]!==undefined) document.querySelectorAll('.nav-link')[map[id]].classList.add('active');
-  window.scrollTo(0,0);
-}
-function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
-
-// ===== MENU =====
-function switchMenu(tab,cat){
-  document.querySelectorAll('.menu-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.menu-cat').forEach(c=>c.classList.remove('active'));
-  tab.classList.add('active');
-  document.getElementById('cat-'+cat).classList.add('active');
-}
-
-// ===== TOAST =====
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
-
-// ===== CART =====
-function addToCart(btn,name){
-  cartCount++;
-  document.getElementById('cartCount').textContent=cartCount;
-  const orig=btn.textContent;
-  btn.textContent='✓ Added'; btn.style.background='var(--green)'; btn.style.color='#fff'; btn.style.borderColor='var(--green)';
-  setTimeout(()=>{btn.textContent=orig; btn.style.background=''; btn.style.color=''; btn.style.borderColor='';},1600);
-  showToast('🛒 '+name+' added to cart!');
-}
-
-// ===== PREDICTIONS =====
-function selectOption(el,group){
-  el.closest('.pred-card').querySelectorAll('.pred-opt').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected'); predictionState[group]=el.textContent.trim();
-}
-function submitPrediction(btn,group,pts){
-  const card=btn.closest('.pred-card');
-  if(!card.querySelector('.pred-opt.selected')){showToast('⚠️ Select an option first!');return;}
-  userPoints+=pts;
-  document.getElementById('userPoints').textContent=userPoints;
-  document.getElementById('lb-your-pts').textContent=userPoints+' pts';
-  document.getElementById('predCount').textContent=parseInt(document.getElementById('predCount').textContent)+1;
-  card.querySelectorAll('.pred-opt').forEach(o=>{o.style.pointerEvents='none';o.style.opacity='.4';});
-  const sel=card.querySelector('.pred-opt.selected');
-  sel.style.opacity='1'; sel.style.background='rgba(22,163,74,.14)'; sel.style.borderColor='var(--green)'; sel.style.color='var(--green)';
-  btn.textContent='✓ Locked! +'+pts+' pts'; btn.style.background='var(--green)'; btn.disabled=true;
-  confetti(); showToast('🎯 Prediction locked! +'+pts+' points earned!');
-}
-function redeemPoints(cost,reward){
-  if(userPoints<cost){showToast('❌ Need '+cost+' pts. You have '+userPoints);return;}
-  userPoints-=cost;
-  document.getElementById('userPoints').textContent=userPoints;
-  confetti(); showToast('🎁 '+reward+' coupon unlocked!');
-}
-
-// ===== COPY =====
-function copyCode(code){
-  if(navigator.clipboard) navigator.clipboard.writeText(code).then(()=>showToast('📋 Copied: '+code));
-  else showToast('📋 Code: '+code);
-}
-
-// ===== BOOKING =====
-function submitBooking(){
-  const n=document.getElementById('bookName').value.trim();
-  const p=document.getElementById('bookPhone').value.trim();
-  if(!n||!p){showToast('⚠️ Fill in name and phone.');return;}
-  confetti(); showToast('🎉 Table booked for '+n+'!');
-  setTimeout(()=>showToast('📱 Confirmation SMS sent!'),3200);
-}
-
-// ===== CONFETTI =====
-function confetti(){
-  const colors=['#f5c518','#ea580c','#1d4ed8','#dc2626','#16a34a','#f59e0b'];
-  for(let i=0;i<28;i++){
-    const p=document.createElement('div'); p.className='cpiece';
-    p.style.left=Math.random()*100+'vw';
-    p.style.background=colors[~~(Math.random()*colors.length)];
-    p.style.animationDelay=Math.random()*0.5+'s';
-    p.style.width=(Math.random()*8+4)+'px'; p.style.height=(Math.random()*8+4)+'px';
-    p.style.borderRadius=Math.random()>.5?'50%':'2px';
-    document.body.appendChild(p); setTimeout(()=>p.remove(),3000);
-  }
-}
-
-// ===== SCROLL REVEAL =====
-function revealOnScroll(){document.querySelectorAll('.reveal').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');})}
-window.addEventListener('scroll',revealOnScroll); setTimeout(revealOnScroll,400);
-
-// ===== DEFAULT DATE =====
-const td=new Date().toISOString().split('T')[0];
-const di=document.getElementById('bookDate'); if(di){di.min=td;di.value=td;}
-
-// ===== UPCOMING MATCHES RENDER =====
-function renderUpcoming(){
-  const el=document.getElementById('upcoming-matches-display');
-  if(!el)return;
-  const today=new Date().toISOString().split('T')[0];
-  el.innerHTML=upcomingMatches.map((m,i)=>`
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;transition:all .25s" onmouseover="this.style.borderColor='rgba(245,197,24,.35)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:160px">
-        <span style="font-family:'Black Han Sans',sans-serif;font-size:1.3rem;color:var(--gold)">${m.t1}</span>
-        <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--muted);font-size:.88rem">vs</span>
-        <span style="font-family:'Black Han Sans',sans-serif;font-size:1.3rem;color:var(--amber)">${m.t2}</span>
-      </div>
-      <div style="font-size:.82rem;color:var(--muted);font-family:'Rajdhani',sans-serif">${m.date===today?'<span style="color:var(--red);font-weight:700">TODAY</span>':m.date} · ${m.time} · ${m.venue}</div>
-      ${m.offer?`<div style="background:rgba(245,197,24,.09);border:1px solid rgba(245,197,24,.2);padding:5px 12px;border-radius:7px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;color:var(--gold)">🎁 ${m.offer}</div>`:''}
-      <button class="btn-p" style="padding:9px 18px;font-size:.88rem" onclick="showPage('contact')">Book Table</button>
-    </div>
-  `).join('');
-}
-renderUpcoming();
-
-// ===== ADMIN - Hidden backend, accessible only via URL hash =====
-// Access via: yoursite.com/index.html#boundaryadmin2026
-function openAdmin(){document.getElementById('admin-overlay').classList.add('open');document.body.style.overflow='hidden';}
-function closeAdmin(){
-  document.getElementById('admin-overlay').classList.remove('open');
-  document.body.style.overflow='';
-  // Clear hash without reload
-  history.replaceState(null, '', window.location.pathname);
-}
-// Secret URL trigger — visit #boundaryadmin2026 to open panel
-function checkAdminHash(){
-  if(window.location.hash === '#boundaryadmin2026') openAdmin();
-}
-window.addEventListener('hashchange', checkAdminHash);
-window.addEventListener('load', checkAdminHash);
-function doLogin(){
-  const u=document.getElementById('adminUser').value.trim();
-  const p=document.getElementById('adminPass').value.trim();
-  if(u==='subadmin'&&p==='boundary2025'){
-    document.getElementById('admin-login').style.display='none';
-    document.getElementById('admin-panel').classList.add('open');
-    document.getElementById('admin-header').style.display='flex';
-    renderUMList();
-    showToast('✅ Welcome, Sub-Admin!');
-  } else {
-    showToast('❌ Invalid credentials. Try: subadmin / boundary2025');
-  }
-}
-
-// Admin tabs
-function switchAdminTab(tab,id){
-  document.querySelectorAll('.atab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.apanel').forEach(p=>p.classList.remove('active'));
-  tab.classList.add('active');
-  document.getElementById('ap-'+id).classList.add('active');
-}
-
-// ----- TODAY'S MATCH -----
-function saveTodayMatch(){
-  const t1s=document.getElementById('t1short').value;
-  const t2s=document.getElementById('t2short').value;
-  const t1n=document.getElementById('t1name').value;
-  const t2n=document.getElementById('t2name').value;
-  const sc=document.getElementById('score1').value;
-  const ov=document.getElementById('score1ov').value;
-  const venue=document.getElementById('matchVenue').value;
-  const ticker=document.getElementById('tickerMsg').value;
-  // Update preview
-  document.getElementById('prev-t1short').textContent=t1s;
-  document.getElementById('prev-t2short').textContent=t2s;
-  document.getElementById('prev-t1name').textContent=t1n;
-  document.getElementById('prev-t2name').textContent=t2n;
-  document.getElementById('prev-score1').textContent=sc+' · '+ov+'ov';
-  document.getElementById('prev-venue').textContent='📍 '+venue;
-  // Update live site
-  document.getElementById('ticker-match').textContent=t1s+' vs '+t2s;
-  document.getElementById('ticker-score').textContent=t1s+' '+sc+' ('+ov+' ov)';
-  document.getElementById('live-ticker-text').innerHTML=ticker;
-  document.getElementById('gz-match-label').textContent='TODAY: '+t1s+' vs '+t2s;
-  confetti(); showToast('✅ Live match updated on site!');
-}
-
-// ----- UPCOMING MATCHES -----
-function addUpcomingMatch(){
-  const t1=document.getElementById('um-t1').value.trim();
-  const t2=document.getElementById('um-t2').value.trim();
-  const date=document.getElementById('um-date').value;
-  const time=document.getElementById('um-time').value;
-  const venue=document.getElementById('um-venue').value.trim();
-  const offer=document.getElementById('um-offer').value.trim();
-  if(!t1||!t2||!date){showToast('⚠️ Fill Team 1, Team 2, and Date.');return;}
-  upcomingMatches.push({t1,t2,date,time,venue,offer});
-  renderUMList(); renderUpcoming();
-  document.getElementById('um-t1').value='';
-  document.getElementById('um-t2').value='';
-  document.getElementById('um-venue').value='';
-  document.getElementById('um-offer').value='';
-  confetti(); showToast('✅ Match added to upcoming list!');
-}
-function renderUMList(){
-  const el=document.getElementById('um-list');
-  el.innerHTML=upcomingMatches.map((m,i)=>`
-    <div class="um-row">
-      <div class="teams">${m.t1} vs ${m.t2}</div>
-      <div class="meta">${m.date} · ${m.time}</div>
-      <div class="meta" style="flex:1">${m.venue}</div>
-      ${m.offer?`<div style="font-size:.78rem;color:var(--gold)">🎁 ${m.offer}</div>`:''}
-      <button class="ann-del" onclick="removeMatch(${i})">✕</button>
-    </div>
-  `).join('');
-}
-function removeMatch(i){upcomingMatches.splice(i,1);renderUMList();renderUpcoming();showToast('🗑️ Match removed.');}
-
-// ----- BANNER -----
-function applyBannerUrl(){
-  const url=document.getElementById('banner-url').value.trim();
-  if(!url){showToast('⚠️ Enter an image URL.');return;}
-  const img=document.getElementById('hero-custom-banner');
-  img.src=url; img.classList.add('visible'); img.onerror=()=>{img.classList.remove('visible');showToast('❌ Image URL failed to load.');};
-  showToast('✅ Banner applied to hero!');
-}
-function uploadBanner(input){
-  const file=input.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const preview=document.getElementById('banner-preview');
-    preview.src=e.target.result; preview.style.display='block';
-    const hero=document.getElementById('hero-custom-banner');
-    hero.src=e.target.result; hero.classList.add('visible');
-    showToast('✅ Banner uploaded & applied!');
-  };
-  reader.readAsDataURL(file);
-}
-function clearBanner(){
-  const img=document.getElementById('hero-custom-banner');
-  img.src=''; img.classList.remove('visible');
-  document.getElementById('banner-preview').style.display='none';
-  document.getElementById('banner-url').value='';
-  showToast('🔄 Banner cleared. Stadium background restored.');
-}
-
-// ----- HERO TEXT -----
-function saveHeroText(){
-  document.getElementById('hero-eyebrow-text').textContent=document.getElementById('ht-eyebrow').value;
-  document.getElementById('hero-main-text').textContent=document.getElementById('ht-main').value;
-  document.getElementById('hero-sub-text').textContent=document.getElementById('ht-sub').value;
-  document.getElementById('hero-para-text').textContent=document.getElementById('ht-para').value;
-  confetti(); showToast('✅ Hero text updated on site!');
-}
-
-// ----- ANNOUNCEMENTS -----
-function addAnnouncement(){
-  const text=document.getElementById('ann-text').value.trim();
-  const type=document.getElementById('ann-type').value;
-  if(!text){showToast('⚠️ Enter announcement text.');return;}
-  // Add to list
-  const item=document.createElement('div'); item.className='ann-item';
-  const typeLabel={bar:'BAR',offer:'OFFER',event:'EVENT'}[type];
-  const typeColor={bar:'var(--red)',offer:'var(--green)',event:'var(--blue)'}[type];
-  item.innerHTML=`<div class="ann-text"><span style="background:rgba(100,100,100,.2);color:${typeColor};padding:2px 8px;border-radius:4px;font-size:.75rem;font-family:'Rajdhani',sans-serif;font-weight:700;margin-right:8px">${typeLabel}</span>${text}</div><button class="ann-del" onclick="this.closest('.ann-item').remove()">✕</button>`;
-  document.getElementById('ann-list').appendChild(item);
-  // If bar type, push to top bar
-  if(type==='bar'){
-    document.getElementById('ann-bar-text').textContent=text;
-    document.getElementById('announcement-bar').classList.add('visible');
-    document.getElementById('announcement-bar').style.display='block';
-  }
-  document.getElementById('ann-text').value='';
-  confetti(); showToast('📢 Announcement published!');
-}
-
-// ----- OFFERS -----
-function addNewOffer(){
-  const cond=document.getElementById('no-cond').value.trim();
-  const disc=document.getElementById('no-disc').value.trim();
-  const code=document.getElementById('no-code').value.trim();
-  const min=document.getElementById('no-min').value.trim();
-  if(!cond||!disc){showToast('⚠️ Fill Condition and Discount.');return;}
-  const el=document.getElementById('offer-list');
-  const div=document.createElement('div');
-  div.style.cssText='background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px';
-  div.innerHTML=`<div style="font-family:\'Rajdhani\',sans-serif;font-weight:700;color:var(--gold);margin-bottom:8px">${cond} → <span>${disc}</span></div><div style="font-size:.82rem;color:var(--muted)">Code: <strong style="color:var(--gold)">${code}</strong> · Min: ${min}</div>`;
-  el.appendChild(div);
-  document.getElementById('no-cond').value='';
-  document.getElementById('no-disc').value='';
-  document.getElementById('no-code').value='';
-  document.getElementById('no-min').value='';
-  showToast('✅ Offer added!');
-}
-
-// Init announcement bar
-document.getElementById('announcement-bar').classList.add('visible');
-document.getElementById('announcement-bar').style.display='block';
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>
