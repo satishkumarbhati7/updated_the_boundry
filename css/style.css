@@ -207,8 +207,8 @@ section{padding:60px 20px;max-width:1180px;margin:0 auto}
 .pts-info .val{font-family:'Black Han Sans',sans-serif;font-size:1.9rem;color:var(--gold)}
 
 /* ===== TOAST ===== */
-.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(110px);background:var(--gold);color:var(--ink);padding:11px 22px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.97rem;z-index:9999;transition:transform .3s;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.5)}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;visibility:hidden;background:var(--gold);color:var(--ink);padding:11px 22px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.97rem;z-index:10001;transition:transform .3s,opacity .3s,visibility .3s;width:max-content;max-width:calc(100vw - 32px);text-align:center;line-height:1.35;box-shadow:0 8px 30px rgba(0,0,0,.5);pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 
 /* ===== WHATSAPP ===== */
 .wa-float{position:fixed;bottom:22px;right:20px;z-index:9998;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.45);transition:all .25s;text-decoration:none;animation:waggle 4s 3s ease-in-out infinite}
