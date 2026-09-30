@@ -339,7 +339,7 @@
         <text x="1130" y="340" text-anchor="middle" font-family="monospace" font-size="11" fill="#f5c518">MI vs CSK</text>
         <text x="1130" y="358" text-anchor="middle" font-family="monospace" font-size="14" font-weight="bold" fill="#e8eaf0">124/3  •  14.2</text>
         <text x="1130" y="374" text-anchor="middle" font-family="monospace" font-size="10" fill="#7a8499">CRR 8.60</text>
-        <rect x="1063" y="378" width="134" height="11" fill="#f5c518" rx="0 0 3 3" opacity="0.15"/>
+        <rect x="1063" y="378" width="134" height="11" fill="#f5c518" rx="3" opacity="0.15"/>
 
         <!-- Dug-out areas -->
         <rect x="380" y="490" width="60" height="25" fill="#0a1520" rx="3" opacity="0.7"/>
@@ -364,7 +364,7 @@
       <div class="hero-btns">
         <button class="btn-p" onclick="showPage('menu')"><i class="fas fa-utensils"></i> Explore Menu</button>
         <button class="btn-o" onclick="showPage('gamezone')">🏏 Play & Win</button>
-        <a href="https://wa.me/917290068096?text=Hi%21+I+found+you+on+The+Boundary+IPL+2026+%F0%9F%8F%8F+I%27d+love+to+book+a+table+%2F+know+more+about+offers!" target="_blank" style="display:inline-flex;align-items:center;gap:9px;padding:13px 26px;background:#25D366;color:#fff;border-radius:10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;transition:all .25s;border:none;cursor:pointer" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(37,211,102,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <a href="https://wa.me/919582182473?text=Hi%21+I+found+you+on+The+Boundary+IPL+2026+%F0%9F%8F%8F+I%27d+love+to+book+a+table+%2F+know+more+about+offers!" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:9px;padding:13px 26px;background:#25D366;color:#fff;border-radius:10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;transition:all .25s;border:none;cursor:pointer" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(37,211,102,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
           <i class="fab fa-whatsapp" style="font-size:1.25rem"></i> Click Here — Chat on WhatsApp
         </a>
       </div>
@@ -404,7 +404,7 @@
     <div class="sec-label">Fan Favourites</div>
     <h2 class="sec-title">Signature <span class="gold">Dishes</span></h2>
     <div class="cards-grid">
-      <div class="dish-card reveal">
+      <div class="dish-card reveal" data-dish="boundary-biryani">
         <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/boundary-biryani.jpg') center/cover no-repeat">
           <span class="badge" style="background:var(--red);color:#fff">🔥 HOT</span>
         </div>
@@ -414,7 +414,7 @@
           <div class="dish-footer"><div class="dish-price">₹349</div><button class="add-btn" onclick="addToCart(this,'Boundary Biryani')">+ Add</button></div>
         </div>
       </div>
-      <div class="dish-card reveal">
+      <div class="dish-card reveal" data-dish="six-spice-chicken">
         <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/six-spice-chicken.jpg') center/cover no-repeat">
           <span class="badge" style="background:var(--gold);color:var(--ink)">IPL SPECIAL</span>
         </div>
@@ -424,7 +424,7 @@
           <div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Six-Spice Chicken')">+ Add</button></div>
         </div>
       </div>
-      <div class="dish-card reveal">
+      <div class="dish-card reveal" data-dish="champion-s-thali">
         <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/champions-thali.jpg') center/cover no-repeat">
           <span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span>
         </div>
@@ -434,7 +434,7 @@
           <div class="dish-footer"><div class="dish-price">₹399</div><button class="add-btn" onclick="addToCart(this,'Champion Thali')">+ Add</button></div>
         </div>
       </div>
-      <div class="dish-card reveal">
+      <div class="dish-card reveal" data-dish="victory-platter">
         <div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/appetizer,platter') center/cover no-repeat">
           <span class="badge" style="background:var(--blue);color:#fff">GROUP</span>
         </div>
@@ -481,36 +481,37 @@
       <button class="menu-tab" onclick="switchMenu(this,'combos')">🎁 Combos</button>
     </div>
     <div class="menu-cat active" id="cat-veg">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/paneer,tikka') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Paneer Tikka Masala</div><div class="dish-desc">Creamy tomato gravy with charred paneer.</div><div class="dish-footer"><div class="dish-price">₹269</div><button class="add-btn" onclick="addToCart(this,'Paneer Tikka')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/dal,makhani') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Dal Makhani</div><div class="dish-desc">Slow-cooked overnight black lentils in butter gravy.</div><div class="dish-footer"><div class="dish-price">₹229</div><button class="add-btn" onclick="addToCart(this,'Dal Makhani')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/veg-biryani.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">HOT</span></div><div class="dish-body"><div class="dish-name">Veg Biryani Royale</div><div class="dish-desc">Fragrant basmati with seasonal vegetables & rose water.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Veg Biryani')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/shahi,paneer') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Shahi Paneer</div><div class="dish-desc">Paneer in a rich cashew &amp; saffron royal gravy.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Shahi Paneer')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/mushroom,curry') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Paneer Mushroom Curry</div><div class="dish-desc">Paneer &amp; button mushrooms in spiced onion-tomato masala.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Paneer Mushroom Curry')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/champions-thali.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">FULL MEAL</span></div><div class="dish-body"><div class="dish-name">Champion's Thali</div><div class="dish-desc">Dal makhani, paneer tikka, roti, raita &amp; dessert.</div><div class="dish-footer"><div class="dish-price">₹399</div><button class="add-btn" onclick="addToCart(this,'Champion Thali')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="paneer-tikka-masala"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/paneer,tikka') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Paneer Tikka Masala</div><div class="dish-desc">Creamy tomato gravy with charred paneer.</div><div class="dish-footer"><div class="dish-price">₹269</div><button class="add-btn" onclick="addToCart(this,'Paneer Tikka')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="dal-makhani"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/dal,makhani') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Dal Makhani</div><div class="dish-desc">Slow-cooked overnight black lentils in butter gravy.</div><div class="dish-footer"><div class="dish-price">₹229</div><button class="add-btn" onclick="addToCart(this,'Dal Makhani')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="veg-biryani-royale"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/veg-biryani.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">HOT</span></div><div class="dish-body"><div class="dish-name">Veg Biryani Royale</div><div class="dish-desc">Fragrant basmati with seasonal vegetables & rose water.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Veg Biryani')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="shahi-paneer"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/shahi,paneer') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Shahi Paneer</div><div class="dish-desc">Paneer in a rich cashew &amp; saffron royal gravy.</div><div class="dish-footer"><div class="dish-price">₹279</div><button class="add-btn" onclick="addToCart(this,'Shahi Paneer')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="paneer-mushroom-curry"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/mushroom,curry') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Paneer Mushroom Curry</div><div class="dish-desc">Paneer &amp; button mushrooms in spiced onion-tomato masala.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Paneer Mushroom Curry')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="champion-s-thali"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/champions-thali.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">FULL MEAL</span></div><div class="dish-body"><div class="dish-name">Champion's Thali</div><div class="dish-desc">Dal makhani, paneer tikka, roti, raita &amp; dessert.</div><div class="dish-footer"><div class="dish-price">₹399</div><button class="add-btn" onclick="addToCart(this,'Champion Thali')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-nonveg">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/boundary-biryani.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">BEST</span></div><div class="dish-body"><div class="dish-name">Boundary Biryani</div><div class="dish-desc">Hyderabadi mutton dum biryani with saffron.</div><div class="dish-footer"><div class="dish-price">₹349</div><button class="add-btn" onclick="addToCart(this,'Boundary Biryani')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/six-spice-chicken.jpg') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Six-Spice Chicken</div><div class="dish-desc">Tandoori grilled in six signature spices.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Six-Spice Chicken')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/prawn,curry') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Coastal Prawn Curry</div><div class="dish-desc">Tiger prawns in coconut & tamarind gravy.</div><div class="dish-footer"><div class="dish-price">₹419</div><button class="add-btn" onclick="addToCart(this,'Prawn Curry')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="boundary-biryani"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/boundary-biryani.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">BEST</span></div><div class="dish-body"><div class="dish-name">Boundary Biryani</div><div class="dish-desc">Hyderabadi mutton dum biryani with saffron.</div><div class="dish-footer"><div class="dish-price">₹349</div><button class="add-btn" onclick="addToCart(this,'Boundary Biryani')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="six-spice-chicken"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/six-spice-chicken.jpg') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Six-Spice Chicken</div><div class="dish-desc">Tandoori grilled in six signature spices.</div><div class="dish-footer"><div class="dish-price">₹289</div><button class="add-btn" onclick="addToCart(this,'Six-Spice Chicken')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="coastal-prawn-curry"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/prawn,curry') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Coastal Prawn Curry</div><div class="dish-desc">Tiger prawns in coconut & tamarind gravy.</div><div class="dish-footer"><div class="dish-price">₹419</div><button class="add-btn" onclick="addToCart(this,'Prawn Curry')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-starters">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/onion,pakora') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Crispy Onion Bhaji</div><div class="dish-desc">Golden bhajis with tamarind chutney (8 pcs).</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Onion Bhaji')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/masala-nachos.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Masala Nachos</div><div class="dish-desc">Loaded nachos with tikka masala & cheese.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Masala Nachos')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/grilled,fish') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Grill Fish</div><div class="dish-desc">Char-grilled fillet with lemon, garlic &amp; herb butter.</div><div class="dish-footer"><div class="dish-price">₹329</div><button class="add-btn" onclick="addToCart(this,'Grill Fish')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/crispy,lamb') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Crispy Lamb</div><div class="dish-desc">Crispy-fried lamb strips tossed with chilli &amp; curry leaf.</div><div class="dish-footer"><div class="dish-price">₹359</div><button class="add-btn" onclick="addToCart(this,'Crispy Lamb')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="crispy-onion-bhaji"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/onion,pakora') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Crispy Onion Bhaji</div><div class="dish-desc">Golden bhajis with tamarind chutney (8 pcs).</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Onion Bhaji')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="masala-nachos"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/masala-nachos.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Masala Nachos</div><div class="dish-desc">Loaded nachos with tikka masala & cheese.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Masala Nachos')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="grill-fish"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/grilled,fish') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Grill Fish</div><div class="dish-desc">Char-grilled fillet with lemon, garlic &amp; herb butter.</div><div class="dish-footer"><div class="dish-price">₹329</div><button class="add-btn" onclick="addToCart(this,'Grill Fish')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="crispy-lamb"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/crispy,lamb') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">SPICY</span></div><div class="dish-body"><div class="dish-name">Crispy Lamb</div><div class="dish-desc">Crispy-fried lamb strips tossed with chilli &amp; curry leaf.</div><div class="dish-footer"><div class="dish-price">₹359</div><button class="add-btn" onclick="addToCart(this,'Crispy Lamb')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-drinks">
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/mango-lassi.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">SEASONAL</span></div><div class="dish-body"><div class="dish-name">Mango Lassi</div><div class="dish-desc">Thick Alphonso mango lassi, lightly sweetened.</div><div class="dish-footer"><div class="dish-price">₹99</div><button class="add-btn" onclick="addToCart(this,'Mango Lassi')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/shikanji.jpg') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Shikanji</div><div class="dish-desc">Masala lemonade with black salt, cumin &amp; mint.</div><div class="dish-footer"><div class="dish-price">₹69</div><button class="add-btn" onclick="addToCart(this,'Shikanji')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/colorful,mocktail') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">IPL Mocktail</div><div class="dish-desc">Team-coloured mocktail of the day!</div><div class="dish-footer"><div class="dish-price">₹129</div><button class="add-btn" onclick="addToCart(this,'IPL Mocktail')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/mojito.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Mojito</div><div class="dish-desc">Fresh mint &amp; lime muddled over crushed ice.</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Mojito')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/blue-margarita.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Blue Margarita</div><div class="dish-desc">Blue curaçao, lime &amp; a salted rim over ice.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Blue Margarita')">+ Add</button></div></div></div>
-      <div class="dish-card"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/strawberry-margarita.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Strawberry Margarita</div><div class="dish-desc">Fresh strawberry blended with lime &amp; crushed ice.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Strawberry Margarita')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="mango-lassi"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/mango-lassi.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">SEASONAL</span></div><div class="dish-body"><div class="dish-name">Mango Lassi</div><div class="dish-desc">Thick Alphonso mango lassi, lightly sweetened.</div><div class="dish-footer"><div class="dish-price">₹99</div><button class="add-btn" onclick="addToCart(this,'Mango Lassi')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="shikanji"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/shikanji.jpg') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">Shikanji</div><div class="dish-desc">Masala lemonade with black salt, cumin &amp; mint.</div><div class="dish-footer"><div class="dish-price">₹69</div><button class="add-btn" onclick="addToCart(this,'Shikanji')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="ipl-mocktail"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('https://loremflickr.com/400/300/colorful,mocktail') center/cover no-repeat"></div><div class="dish-body"><div class="dish-name">IPL Mocktail</div><div class="dish-desc">Team-coloured mocktail of the day!</div><div class="dish-footer"><div class="dish-price">₹129</div><button class="add-btn" onclick="addToCart(this,'IPL Mocktail')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="mojito"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/mojito.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Mojito</div><div class="dish-desc">Fresh mint &amp; lime muddled over crushed ice.</div><div class="dish-footer"><div class="dish-price">₹149</div><button class="add-btn" onclick="addToCart(this,'Mojito')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="blue-margarita"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/blue-margarita.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Blue Margarita</div><div class="dish-desc">Blue curaçao, lime &amp; a salted rim over ice.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Blue Margarita')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="strawberry-margarita"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/strawberry-margarita.jpg') center/cover no-repeat"><span class="badge" style="background:var(--green);color:#fff">🌱 NEW</span></div><div class="dish-body"><div class="dish-name">Strawberry Margarita</div><div class="dish-desc">Fresh strawberry blended with lime &amp; crushed ice.</div><div class="dish-footer"><div class="dish-price">₹199</div><button class="add-btn" onclick="addToCart(this,'Strawberry Margarita')">+ Add</button></div></div></div>
     </div>
     <div class="menu-cat" id="cat-combos">
-      <div class="dish-card" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/century-combo.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">BEST VALUE</span></div><div class="dish-body"><div class="dish-name">Century Combo</div><div class="dish-desc">Biryani + Starters + Dessert + Drink for 2.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹899</del> ₹699</div><button class="add-btn" onclick="addToCart(this,'Century Combo')">+ Add</button></div></div></div>
-      <div class="dish-card" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/stadium-pack.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">GROUP</span></div><div class="dish-body"><div class="dish-name">Stadium Pack (4 pax)</div><div class="dish-desc">4 mains + 2 starters + 4 drinks.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹2400</del> ₹1799</div><button class="add-btn" onclick="addToCart(this,'Stadium Pack')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="century-combo" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/century-combo.jpg') center/cover no-repeat"><span class="badge" style="background:var(--gold);color:var(--ink)">BEST VALUE</span></div><div class="dish-body"><div class="dish-name">Century Combo</div><div class="dish-desc">Biryani + Starters + Dessert + Drink for 2.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹899</del> ₹699</div><button class="add-btn" onclick="addToCart(this,'Century Combo')">+ Add</button></div></div></div>
+      <div class="dish-card" data-dish="stadium-pack-4-pax" style="border-color:rgba(245,197,24,.3)"><div class="dish-img" style="background:linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('assets/stadium-pack.jpg') center/cover no-repeat"><span class="badge" style="background:var(--red);color:#fff">GROUP</span></div><div class="dish-body"><div class="dish-name">Stadium Pack (4 pax)</div><div class="dish-desc">4 mains + 2 starters + 4 drinks.</div><div class="dish-footer"><div class="dish-price"><del style="color:var(--muted);font-size:.88rem">₹2400</del> ₹1799</div><button class="add-btn" onclick="addToCart(this,'Stadium Pack')">+ Add</button></div></div></div>
     </div>
+    <p class="menu-tax-note" id="menu-tax-note"></p>
   </section>
 </div>
 
@@ -593,7 +594,7 @@
       <div>
         <h3 style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:18px">Table Reservation</h3>
         <div class="form-grp"><label class="form-lbl">Full Name</label><input type="text" class="form-inp" placeholder="Your name" id="bookName"></div>
-        <div class="form-grp"><label class="form-lbl">Phone</label><input type="tel" class="form-inp" placeholder="+91 72900 68096" id="bookPhone"></div>
+        <div class="form-grp"><label class="form-lbl">Phone</label><input type="tel" class="form-inp" placeholder="+91 95821 82473" id="bookPhone"></div>
         <div class="dt-grid">
           <div class="form-grp"><label class="form-lbl">Date</label><input type="date" class="form-inp" id="bookDate"></div>
           <div class="form-grp"><label class="form-lbl">Time</label><select class="form-sel" id="bookTime"><option>12:00 PM</option><option>1:00 PM</option><option>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option><option>10:00 PM</option></select></div>
@@ -601,25 +602,25 @@
         <div class="form-grp"><label class="form-lbl">Guests</label><select class="form-sel" id="bookGuests"><option>1-2</option><option>3-4</option><option>5-8</option><option>9+</option></select></div>
         <div class="form-grp"><label class="form-lbl">Special Requests</label><textarea class="form-ta" id="bookNotes" placeholder="Match seating, dietary needs, celebration..."></textarea></div>
         <button class="btn-p" style="width:100%;justify-content:center;padding:14px" onclick="submitBooking()"><i class="fas fa-calendar-check"></i> Confirm Reservation</button>
-        <p style="text-align:center;font-size:.79rem;color:var(--muted);margin-top:10px">Or call: <strong style="color:var(--gold)">+91 72900 68096</strong></p>
+        <p style="text-align:center;font-size:.79rem;color:var(--muted);margin-top:10px">Or call: <strong style="color:var(--gold)">+91 95821 82473</strong></p>
       </div>
       <div>
         <div class="info-card" style="margin-bottom:18px">
           <h3 style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:18px">Restaurant Info</h3>
-          <div class="info-row"><div class="info-ico"><i class="fas fa-map-marker-alt"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Address</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">42 Cricket Lane, Connaught Place, Delhi – 110001</div></div></div>
+          <div class="info-row"><div class="info-ico"><i class="fas fa-map-marker-alt"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Address</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">Shop No. 18, Mayur Vihar Phase-2, Delhi – 110091</div></div></div>
           <div class="info-row"><div class="info-ico"><i class="fas fa-clock"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Hours</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">Mon–Fri: 12PM–11PM · Sat–Sun: 11AM–12AM</div></div></div>
-          <div class="info-row"><div class="info-ico"><i class="fas fa-phone"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Phone</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">+91 72900 68096</div></div></div>
+          <div class="info-row"><div class="info-ico"><i class="fas fa-phone"></i></div><div><div style="font-size:.78rem;color:var(--muted)">Phone</div><div style="font-family:'Rajdhani',sans-serif;font-weight:600">+91 95821 82473</div></div></div>
           <div class="divider"></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <a href="https://wa.me/917290068096?text=Hi%2C+I+want+to+book+a+table+at+The+Boundary!" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:9px;color:#25D366;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fab fa-whatsapp" style="font-size:1.1rem"></i> WhatsApp</a>
-            <a href="tel:+917290068096" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.28);border-radius:9px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fas fa-phone"></i> Call Now</a>
+            <a href="https://wa.me/919582182473?text=Hi%2C+I+want+to+book+a+table+at+The+Boundary!" target="_blank" rel="noopener noreferrer" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:9px;color:#25D366;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fab fa-whatsapp" style="font-size:1.1rem"></i> WhatsApp</a>
+            <a href="tel:+919582182473" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.28);border-radius:9px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none"><i class="fas fa-phone"></i> Call Now</a>
           </div>
         </div>
         <div class="map-box">
           <i class="fas fa-map-marked-alt" style="font-size:2.8rem;color:var(--gold)"></i>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700">42 Cricket Lane, Connaught Place</div>
-          <div style="font-size:.83rem">New Delhi, 110001</div>
-          <a href="https://maps.google.com/?q=Connaught+Place+New+Delhi" target="_blank" style="padding:9px 22px;background:rgba(245,197,24,.13);border:1px solid rgba(245,197,24,.28);border-radius:8px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none;margin-top:6px"><i class="fas fa-external-link-alt"></i> Open Maps</a>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700">Shop No. 18, Mayur Vihar Phase-2</div>
+          <div style="font-size:.83rem">Delhi – 110091</div>
+          <a href="https://maps.google.com/?q=Shop+No.+18%2C+Mayur+Vihar+Phase+2%2C+Delhi+110091" target="_blank" rel="noopener noreferrer" style="padding:9px 22px;background:rgba(245,197,24,.13);border:1px solid rgba(245,197,24,.28);border-radius:8px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.88rem;text-decoration:none;margin-top:6px"><i class="fas fa-external-link-alt"></i> Open Maps</a>
         </div>
       </div>
     </div>
@@ -644,10 +645,11 @@
     <span class="foot-link" onclick="showPage('contact')">Contact</span>
   </div>
   <div class="foot-copy">© 2026 The Boundary Restaurant, New Delhi. All rights reserved.</div>
+  <div class="foot-staff"><a href="#admin-c1b3d98c5bce" class="staff-link" onclick="openAdmin()">Staff Panel</a></div>
 </footer>
 
 <!-- WhatsApp -->
-<a href="https://wa.me/917290068096?text=Hi%21+I+found+you+on+The+Boundary+IPL+2026+%F0%9F%8F%8F+I%27d+love+to+book+a+table+%2F+know+more+about+offers!" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/919582182473?text=Hi%21+I+found+you+on+The+Boundary+IPL+2026+%F0%9F%8F%8F+I%27d+love+to+book+a+table+%2F+know+more+about+offers!" target="_blank" rel="noopener noreferrer" class="wa-float"><i class="fab fa-whatsapp"></i></a>
 
 <!-- Toast -->
 <div class="toast" id="toast">Message</div>
@@ -687,6 +689,8 @@
         <button class="atab" onclick="switchAdminTab(this,'banner')">🖼️ Hero Banner</button>
         <button class="atab" onclick="switchAdminTab(this,'announce')">📢 Announcements</button>
         <button class="atab" onclick="switchAdminTab(this,'offers')">🎁 Offers Text</button>
+        <button class="atab" onclick="switchAdminTab(this,'menu')">🍽️ Menu &amp; Prices</button>
+        <button class="atab" onclick="switchAdminTab(this,'tax')">🧾 Taxes</button>
       </div>
 
       <!-- ---- TODAY'S MATCH ---- -->
@@ -856,6 +860,37 @@
             <div class="af-grp"><label class="af-lbl">Min Order</label><input class="af-inp" id="no-min" placeholder="e.g. ₹500"></div>
           </div>
           <button class="save-btn" onclick="addNewOffer()"><i class="fas fa-plus"></i> Add Offer</button>
+        </div>
+      </div>
+
+      <!-- ---- MENU & PRICES ---- -->
+      <div class="apanel" id="ap-menu">
+        <div class="admin-card">
+          <h3>🍽️ Menu &amp; Prices</h3>
+          <p class="preview-warn"><strong>⚠️ Preview only.</strong> Changes here are saved in <strong>this browser only</strong>. Customers on other phones will still see the original menu. Real menu editing needs a server.</p>
+          <div class="af-grp"><label class="af-lbl">Filter dishes</label><input class="af-inp" id="mi-filter" placeholder="Type a dish name…" oninput="renderMenuAdmin()"></div>
+          <div id="mi-list"></div>
+          <button class="save-btn" onclick="resetMenuOverrides()" style="background:transparent;border:1px solid var(--border);color:var(--muted);margin-top:14px"><i class="fas fa-rotate-left"></i> Reset all dishes to original</button>
+        </div>
+      </div>
+
+      <!-- ---- TAXES ---- -->
+      <div class="apanel" id="ap-tax">
+        <div class="admin-card">
+          <h3>🧾 Tax Settings</h3>
+          <p class="preview-warn"><strong>⚠️ Preview only.</strong> Saved in <strong>this browser only</strong>. This does not change any bill — the site has no checkout. It only edits the tax note shown under the menu.</p>
+          <div class="af-grid">
+            <div class="af-grp"><label class="af-lbl">GST rate (%)</label><input class="af-inp" id="tax-gst" type="number" min="0" max="100" step="0.5" placeholder="5"></div>
+            <div class="af-grp"><label class="af-lbl">Service charge (%)</label><input class="af-inp" id="tax-service" type="number" min="0" max="100" step="0.5" placeholder="0"></div>
+          </div>
+          <div class="af-grp"><label class="af-lbl">Are menu prices inclusive of tax?</label>
+            <select class="af-inp" id="tax-inclusive">
+              <option value="exclusive">No — tax is added on the bill</option>
+              <option value="inclusive">Yes — prices already include tax</option>
+            </select>
+          </div>
+          <div class="af-grp"><label class="af-lbl">Note shown under the menu (leave blank to auto-generate)</label><input class="af-inp" id="tax-note" placeholder="Auto: All prices exclusive of 5% GST."></div>
+          <button class="save-btn" onclick="saveTaxSettings()"><i class="fas fa-save"></i> Save tax note</button>
         </div>
       </div>
 

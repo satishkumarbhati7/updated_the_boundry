@@ -213,7 +213,7 @@ function submitBooking(){
   confetti(); showToast('🎉 Table booked for '+n+' · '+g+' guests · '+d+' '+t+'!');
   setTimeout(()=>showToast('📱 Confirmation SMS sent to '+p+'!'),3200);
   const waMsg=encodeURIComponent(`Table booking request:\nName: ${n}\nPhone: ${p}\nDate: ${d}\nTime: ${t}\nGuests: ${g}\nNotes: ${notes||'-'}`);
-  setTimeout(()=>{ window.open('https://wa.me/917290068096?text='+waMsg, '_blank'); }, 1200);
+  setTimeout(()=>{ window.open('https://wa.me/919582182473?text='+waMsg, '_blank'); }, 1200);
 }
 
 // ===== CONFETTI =====
@@ -258,7 +258,8 @@ function renderUpcoming(){
 }
 
 // ===== ADMIN - Hidden backend, accessible only via URL hash =====
-// Access via: yoursite.com/index.html#boundaryadmin2026
+// Access via: yoursite.com/index.html#admin-c1b3d98c5bce
+// Entry hash rotated 22 Sep 2026 — the previous one was public.
 function openAdmin(){document.getElementById('admin-overlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeAdmin(){
   document.getElementById('admin-overlay').classList.remove('open');
@@ -266,9 +267,9 @@ function closeAdmin(){
   // Clear hash without reload
   history.replaceState(null, '', window.location.pathname);
 }
-// Secret URL trigger — visit #boundaryadmin2026 to open panel
+// URL trigger — opens the panel. NOT a secret: it is readable in this file by any visitor.
 function checkAdminHash(){
-  if(window.location.hash === '#boundaryadmin2026') openAdmin();
+  if(window.location.hash === '#admin-c1b3d98c5bce') openAdmin();
 }
 window.addEventListener('hashchange', checkAdminHash);
 window.addEventListener('load', checkAdminHash);
@@ -276,8 +277,11 @@ window.addEventListener('load', checkAdminHash);
 // NOTE: this is still not real security (a static page can't keep secrets from its own visitors);
 // anyone with the page source can brute-force the hash offline. For genuine protection this login
 // needs to move to a real server-side auth check.
-const ADMIN_SALT='tb_boundary_2026_salt';
-const ADMIN_HASH='25bd02fd81119732e8ecb91ed957ce2ace4e6b97aee208b6b5eb79572e45d049';
+// ROTATED 22 Sep 2026: the previous salt/hash pair matched a password published in the
+// public README, so it had to be treated as burned. Never document the password anywhere
+// tracked by git — this check only slows a casual visitor, nothing more.
+const ADMIN_SALT='tb_dc63a9a37a24ca08';
+const ADMIN_HASH='6caa1081e0c50431532a499cf191c8870d697d48ca1658eedd4c2604cf094eb3';
 async function sha256Hex(str){
   const buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -294,6 +298,8 @@ async function doLogin(){
     document.getElementById('admin-panel').classList.add('open');
     document.getElementById('admin-header').style.display='flex';
     renderUMList();
+    renderMenuAdmin();
+    applyTaxNote();
     showToast('✅ Welcome, Sub-Admin!');
   } else {
     showToast('❌ Invalid credentials.');
@@ -498,6 +504,232 @@ function addNewOffer(){
   showToast('✅ Offer added!');
 }
 
+
+// ===== SUB-ADMIN: MENU, PRICES & TAX (added 30 Sep 2026) =====
+// IMPORTANT: everything below writes to localStorage, which is per-browser.
+// A price changed here is NOT visible to customers on any other device.
+// Until a real backend exists, every screen in these tabs says so out loud.
+
+const CAT_LABEL={veg:'Veg',nonveg:'Non-Veg',starters:'Starters',drinks:'Drinks',combos:'Combos'};
+
+// Read the dish cards straight out of the DOM so the admin list can never
+// drift out of sync with the menu that is actually rendered.
+function collectDishes(){
+  return Array.from(document.querySelectorAll('.dish-card[data-dish]')).map(card=>{
+    const cat=card.closest('.menu-cat');
+    const descEl=card.querySelector('.dish-desc');
+    const priceEl=card.querySelector('.dish-price');
+    return {
+      slug: card.dataset.dish,
+      name: card.querySelector('.dish-name').textContent,
+      desc: descEl?descEl.textContent:'',
+      price: priceEl?priceEl.textContent:'',
+      cat: cat ? (cat.id||'').replace('cat-','') : '',
+      card: card
+    };
+  });
+}
+
+function getMenuOverrides(){
+  try{ return JSON.parse(localStorage.getItem(LS_ADMIN)||'{}').menuOverrides||{}; }catch(e){ return {}; }
+}
+
+// Separate helper so a full localStorage (private mode, or quota hit)
+// reports honestly instead of silently losing the edit.
+function persistMenuOverrides(ov){
+  try{
+    const cur=JSON.parse(localStorage.getItem(LS_ADMIN)||'{}');
+    cur.menuOverrides=ov;
+    localStorage.setItem(LS_ADMIN, JSON.stringify(cur));
+    return true;
+  }catch(e){
+    showToast('❌ Could not save — browser storage is full or blocked.');
+    return false;
+  }
+}
+
+// Apply saved overrides to the live cards. Called on load and after each save.
+function applyMenuOverrides(){
+  const ov=getMenuOverrides();
+  collectDishes().forEach(d=>{
+    const o=ov[d.slug]; if(!o) return;
+    if(o.price){ const el=d.card.querySelector('.dish-price'); if(el) el.textContent=o.price; }
+    if(o.desc){ const el=d.card.querySelector('.dish-desc'); if(el) el.textContent=o.desc; }
+    if(o.img){
+      const el=d.card.querySelector('.dish-img');
+      if(el) el.style.background="linear-gradient(rgba(6,11,24,.4),rgba(6,11,24,.4)),url('"+o.img.replace(/'/g,'%27')+"') center/cover no-repeat";
+    }
+    if(o.soldOut){
+      const btn=d.card.querySelector('.add-btn');
+      if(btn && !btn.disabled){
+        btn.textContent='Sold out'; btn.disabled=true;
+        btn.style.opacity='.45'; btn.style.cursor='not-allowed';
+      }
+    }
+  });
+}
+
+// Build the editor rows. textContent everywhere that shows admin-entered text.
+function renderMenuAdmin(){
+  const list=document.getElementById('mi-list'); if(!list) return;
+  const filterEl=document.getElementById('mi-filter');
+  const q=(filterEl?filterEl.value:'').trim().toLowerCase();
+  const ov=getMenuOverrides();
+  list.textContent='';
+  // A dish can appear twice (Home feature card + Menu card). Show one editor row
+  // per slug; applyMenuOverrides() still updates every card carrying that slug,
+  // so Home and Menu can never drift apart on price.
+  const seen={};
+  const dishes=collectDishes().filter(d=>{
+    if(seen[d.slug]) return false;
+    seen[d.slug]=1;
+    return !q||d.name.toLowerCase().includes(q);
+  });
+  if(!dishes.length){
+    const p=document.createElement('p');
+    p.style.cssText='color:var(--muted);font-size:.85rem;padding:10px 0';
+    p.textContent='No dish matches that search.';
+    list.appendChild(p); return;
+  }
+  dishes.forEach(d=>{
+    const o=ov[d.slug]||{};
+    const row=document.createElement('div'); row.className='mi-row';
+
+    const thumb=document.createElement('div'); thumb.className='mi-thumb';
+    const imgEl=d.card.querySelector('.dish-img');
+    thumb.style.background = o.img
+      ? "url('"+o.img.replace(/'/g,'%27')+"') center/cover no-repeat"
+      : (imgEl?imgEl.style.background:'');
+    row.appendChild(thumb);
+
+    const body=document.createElement('div');
+
+    const nameLine=document.createElement('div'); nameLine.className='mi-name';
+    nameLine.textContent=d.name;
+    const cat=document.createElement('span'); cat.className='mi-cat';
+    cat.textContent=CAT_LABEL[d.cat]||d.cat; nameLine.appendChild(cat);
+    if(Object.keys(o).length){
+      const flag=document.createElement('span'); flag.className='mi-edited';
+      flag.textContent='● edited'; nameLine.appendChild(flag);
+    }
+    body.appendChild(nameLine);
+
+    const fields=document.createElement('div'); fields.className='mi-fields';
+    fields.appendChild(adminField('Price','mi-price-'+d.slug, o.price||d.price, '₹269'));
+    fields.appendChild(adminField('Description','mi-desc-'+d.slug, o.desc||d.desc, ''));
+    fields.appendChild(adminField('Image path or URL','mi-img-'+d.slug, o.img||'', 'assets/paneer-tikka.jpg'));
+
+    const soldWrap=document.createElement('div'); soldWrap.className='af-grp';
+    const soldLbl=document.createElement('label'); soldLbl.className='af-lbl';
+    soldLbl.textContent='Availability';
+    const sold=document.createElement('select'); sold.className='af-inp'; sold.id='mi-sold-'+d.slug;
+    [['','Available'],['1','Sold out']].forEach(pair=>{
+      const opt=document.createElement('option'); opt.value=pair[0]; opt.textContent=pair[1];
+      if(String(o.soldOut||'')===pair[0]) opt.selected=true;
+      sold.appendChild(opt);
+    });
+    soldWrap.appendChild(soldLbl); soldWrap.appendChild(sold); fields.appendChild(soldWrap);
+    body.appendChild(fields);
+
+    const save=document.createElement('button'); save.className='save-btn';
+    save.style.cssText='margin-top:10px;padding:8px 16px;font-size:.82rem';
+    save.textContent='Save this dish';
+    save.onclick=function(){ saveDish(d.slug); };
+    body.appendChild(save);
+
+    if(Object.keys(o).length){
+      const undo=document.createElement('button'); undo.className='save-btn';
+      undo.style.cssText='margin-top:10px;margin-left:8px;padding:8px 16px;font-size:.82rem;background:transparent;border:1px solid var(--border);color:var(--muted)';
+      undo.textContent='Undo';
+      undo.onclick=function(){ resetDish(d.slug); };
+      body.appendChild(undo);
+    }
+
+    row.appendChild(body); list.appendChild(row);
+  });
+}
+
+function adminField(label,id,value,placeholder){
+  const wrap=document.createElement('div'); wrap.className='af-grp';
+  const lbl=document.createElement('label'); lbl.className='af-lbl'; lbl.textContent=label;
+  const inp=document.createElement('input'); inp.className='af-inp'; inp.id=id;
+  inp.value=value; inp.placeholder=placeholder;
+  wrap.appendChild(lbl); wrap.appendChild(inp);
+  return wrap;
+}
+
+function saveDish(slug){
+  const dish=collectDishes().find(d=>d.slug===slug); if(!dish) return;
+  const price=document.getElementById('mi-price-'+slug).value.trim();
+  const desc=document.getElementById('mi-desc-'+slug).value.trim();
+  const img=document.getElementById('mi-img-'+slug).value.trim();
+  const soldOut=document.getElementById('mi-sold-'+slug).value;
+  if(price && !/^₹?\s*\d+(\.\d{1,2})?$/.test(price)){
+    showToast('⚠️ Price must be a number, e.g. ₹269.'); return;
+  }
+  const entry={};
+  if(price && price!==dish.price) entry.price = price.charAt(0)==='₹' ? price : '₹'+price.replace(/\s/g,'');
+  if(desc && desc!==dish.desc) entry.desc=desc;
+  if(img) entry.img=img;
+  if(soldOut) entry.soldOut=soldOut;
+  const ov=getMenuOverrides();
+  if(Object.keys(entry).length) ov[slug]=entry; else delete ov[slug];
+  if(!persistMenuOverrides(ov)) return;
+  applyMenuOverrides(); renderMenuAdmin();
+  showToast('✅ Saved on THIS device only — customers still see the old menu.');
+}
+
+function resetDish(slug){
+  const ov=getMenuOverrides(); delete ov[slug];
+  if(!persistMenuOverrides(ov)) return;
+  renderMenuAdmin();
+  showToast('↩️ Dish reset. Reload the page to see the original.');
+}
+
+function resetMenuOverrides(){
+  if(!persistMenuOverrides({})) return;
+  renderMenuAdmin();
+  showToast('↩️ All dishes reset. Reload the page to see the original menu.');
+}
+
+// ----- TAX NOTE -----
+function buildTaxNote(t){
+  if(!t) return '';
+  if(t.note) return t.note;
+  const parts=[];
+  if(t.gst) parts.push(t.gst+'% GST');
+  if(t.service) parts.push(t.service+'% service charge');
+  if(!parts.length) return '';
+  return t.inclusive==='inclusive'
+    ? 'All prices include '+parts.join(' and ')+'.'
+    : 'All prices are exclusive of '+parts.join(' and ')+'.';
+}
+
+function applyTaxNote(){
+  let t={}; try{ t=JSON.parse(localStorage.getItem(LS_ADMIN)||'{}').tax||{}; }catch(e){}
+  const el=document.getElementById('menu-tax-note');
+  if(el) el.textContent=buildTaxNote(t);
+  const gst=document.getElementById('tax-gst');
+  if(gst){
+    gst.value=t.gst||'';
+    document.getElementById('tax-service').value=t.service||'';
+    document.getElementById('tax-inclusive').value=t.inclusive||'exclusive';
+    document.getElementById('tax-note').value=t.note||'';
+  }
+}
+
+function saveTaxSettings(){
+  const gst=document.getElementById('tax-gst').value.trim();
+  const service=document.getElementById('tax-service').value.trim();
+  const inclusive=document.getElementById('tax-inclusive').value;
+  const note=document.getElementById('tax-note').value.trim();
+  if(gst && (isNaN(gst)||Number(gst)<0||Number(gst)>100)){ showToast('⚠️ GST must be between 0 and 100.'); return; }
+  if(service && (isNaN(service)||Number(service)<0||Number(service)>100)){ showToast('⚠️ Service charge must be between 0 and 100.'); return; }
+  saveAdminState({tax:{gst:gst,service:service,inclusive:inclusive,note:note}});
+  applyTaxNote();
+  showToast('✅ Tax note saved on THIS device only.');
+}
+
 // ===== INIT =====
 document.getElementById('announcement-bar').classList.add('visible');
 document.getElementById('announcement-bar').style.display='block';
@@ -505,3 +737,5 @@ loadAdminState();   // restore admin-edited content (hero, today's match, announ
 renderUpcoming();    // render upcoming matches AFTER admin state is applied
 loadUserState();     // restore points, cart, locked predictions
 loadTheme();         // restore dark/light theme preference
+applyMenuOverrides();// re-apply sub-admin menu/price edits (this browser only)
+applyTaxNote();      // re-apply the sub-admin tax note (this browser only)
