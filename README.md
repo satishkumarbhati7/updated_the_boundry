@@ -44,13 +44,12 @@ All rendered in **pure SVG** — no external images needed!
 
 ## ⚙️ Sub-Admin Panel
 
-Access via footer link or mobile menu.
+Access via the "Staff Panel" footer link.
 
-**Login Credentials:**
-```
-Username: subadmin
-Password: boundary2025
-```
+**Login:** Credentials are not published here. On first use, open the panel and
+choose "Set up an admin account" to create your own login. Manage staff logins
+from the panel's **Accounts** tab. The login is checked in the browser only and
+is not a real security boundary — see the security notes before relying on it.
 
 ### Admin Tabs
 

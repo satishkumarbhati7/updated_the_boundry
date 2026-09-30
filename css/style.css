@@ -437,3 +437,17 @@ nav,.mobile-menu,footer,.dish-card,.pred-card,.coupon-card,.admin-card,.info-car
   .mi-thumb{width:44px;height:44px}
   .mi-fields{grid-template-columns:1fr 1fr}
 }
+
+/* ===== SUB-ADMIN: staff accounts (added 30 Sep 2026) ===== */
+.acc-row{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.acc-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.acc-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem}
+.acc-badge{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:5px;font-family:'Rajdhani',sans-serif;font-weight:700}
+.acc-badge.acc-admin{background:rgba(245,197,24,.15);color:var(--gold);border:1px solid rgba(245,197,24,.35)}
+.acc-badge.acc-sub{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border)}
+.acc-you{font-size:.68rem;color:var(--green);border:1px solid rgba(46,204,113,.4);border-radius:5px;padding:2px 7px}
+.acc-actions{display:flex;gap:8px;flex-wrap:wrap}
+.acc-btn{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text)}
+.acc-btn:hover{border-color:var(--gold);color:var(--gold)}
+.acc-btn.acc-del{color:var(--red)}
+.acc-btn.acc-del:hover{border-color:var(--red);background:rgba(231,76,60,.1)}

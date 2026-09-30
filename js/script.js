@@ -260,10 +260,11 @@ function renderUpcoming(){
 // ===== ADMIN - Hidden backend, accessible only via URL hash =====
 // Access via: yoursite.com/index.html#admin-c1b3d98c5bce
 // Entry hash rotated 22 Sep 2026 — the previous one was public.
-function openAdmin(){document.getElementById('admin-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function openAdmin(){document.getElementById('admin-overlay').classList.add('open');document.body.style.overflow='hidden';refreshLoginSetupLink();}
 function closeAdmin(){
   document.getElementById('admin-overlay').classList.remove('open');
   document.body.style.overflow='';
+  resetAdminUI();
   // Clear hash without reload
   history.replaceState(null, '', window.location.pathname);
 }
@@ -286,26 +287,7 @@ async function sha256Hex(str){
   const buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
-async function doLogin(){
-  const u=document.getElementById('adminUser').value.trim();
-  const p=document.getElementById('adminPass').value.trim();
-  if(!u||!p){showToast('⚠️ Enter username and password.');return;}
-  let hash;
-  try{ hash=await sha256Hex(ADMIN_SALT+':'+u+':'+p); }
-  catch(e){ showToast('❌ Secure login requires HTTPS or localhost.'); return; }
-  if(hash===ADMIN_HASH){
-    document.getElementById('admin-login').style.display='none';
-    document.getElementById('admin-panel').classList.add('open');
-    document.getElementById('admin-header').style.display='flex';
-    renderUMList();
-    renderMenuAdmin();
-    applyTaxNote();
-    showToast('✅ Welcome, Sub-Admin!');
-  } else {
-    showToast('❌ Invalid credentials.');
-  }
-}
-
+// doLogin and the account system live in the ACCOUNTS block below.
 // Admin tabs
 function switchAdminTab(tab,id){
   document.querySelectorAll('.atab').forEach(t=>t.classList.remove('active'));
@@ -728,6 +710,286 @@ function saveTaxSettings(){
   saveAdminState({tax:{gst:gst,service:service,inclusive:inclusive,note:note}});
   applyTaxNote();
   showToast('✅ Tax note saved on THIS device only.');
+}
+
+// ===== SUB-ADMIN ACCOUNTS (added 30 Sep 2026) =====
+// Client-side account store. Like everything else in this panel it lives in
+// localStorage, so it is PER-BROWSER and is NOT real security: the page source
+// is public and the check can be bypassed. It exists so the owner can manage
+// staff logins without hunting for a hardcoded password. Real, cross-device
+// auth needs a server (see review H1/C1 - the Supabase upgrade).
+//
+// Password hashing:
+//   v1 (legacy seeded sub-admin): sha256(salt + ':' + username + ':' + pass)
+//   v2 (anything set through this UI): sha256(salt + ':' + pass)
+// v2 drops the username from the hash so a rename does not invalidate the login.
+
+const LS_ACCOUNTS = 'tb_accounts';
+let TB_SESSION = null; // { u, role } once signed in
+
+function randSalt(){
+  try{
+    const a = crypto.getRandomValues(new Uint8Array(8));
+    return 'tb_' + Array.from(a).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){
+    return 'tb_' + Date.now().toString(16) + Math.random().toString(16).slice(2,10);
+  }
+}
+
+// Seed the store with the original hardcoded sub-admin so no one is locked out.
+function loadAccounts(){
+  let a = null;
+  try{ a = JSON.parse(localStorage.getItem(LS_ACCOUNTS) || 'null'); }catch(e){}
+  if(!a || !Array.isArray(a.users) || !a.users.length){
+    a = { users: [ { u:'subadmin', role:'subadmin', salt:ADMIN_SALT, hash:ADMIN_HASH, fmt:'v1' } ] };
+  }
+  return a;
+}
+function saveAccounts(a){
+  try{ localStorage.setItem(LS_ACCOUNTS, JSON.stringify(a)); return true; }
+  catch(e){ showToast('❌ Could not save — browser storage is full or blocked.'); return false; }
+}
+function findUser(a, name){
+  return a.users.find(x => x.u.toLowerCase() === String(name).toLowerCase());
+}
+async function calcHash(user, pass){
+  return user.fmt === 'v1'
+    ? sha256Hex(user.salt + ':' + user.u + ':' + pass)
+    : sha256Hex(user.salt + ':' + pass);
+}
+function adminExists(){
+  return loadAccounts().users.some(u => u.role === 'admin');
+}
+
+// ----- LOGIN / LOGOUT -----
+async function doLogin(){
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value.trim();
+  if(!u || !p){ showToast('⚠️ Enter username and password.'); return; }
+  const user = findUser(loadAccounts(), u);
+  let ok = false;
+  if(user){
+    try{ ok = (await calcHash(user, p)) === user.hash; }
+    catch(e){ showToast('❌ Secure login requires HTTPS or localhost.'); return; }
+  }
+  if(ok){
+    startSession(user);
+    showToast('✅ Welcome, ' + user.u + '!');
+  } else {
+    showToast('❌ Invalid credentials.');
+  }
+}
+
+function startSession(user){
+  TB_SESSION = { u: user.u, role: user.role };
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-panel').classList.add('open');
+  document.getElementById('admin-header').style.display = 'flex';
+  const who = document.getElementById('admin-whoami');
+  if(who) who.textContent = 'Signed in as ' + user.u + ' · ' + (user.role === 'admin' ? 'Admin' : 'Sub-admin');
+  document.getElementById('atab-accounts').style.display = (user.role === 'admin') ? '' : 'none';
+  renderUMList();
+  renderMenuAdmin();
+  applyTaxNote();
+  if(user.role === 'admin') renderAccounts();
+}
+
+// Reset the panel back to the logged-out login screen.
+function resetAdminUI(){
+  TB_SESSION = null;
+  const panel = document.getElementById('admin-panel');
+  if(panel) panel.classList.remove('open');
+  const login = document.getElementById('admin-login');
+  if(login) login.style.display = '';
+  const header = document.getElementById('admin-header');
+  if(header) header.style.display = 'none';
+  ['adminPass','adminUser','setup-pass','setup-pass2','setup-user'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  const setup = document.getElementById('admin-setup'); if(setup) setup.style.display = 'none';
+  refreshLoginSetupLink();
+}
+
+// Show the "set up an admin" link only while no admin account exists yet.
+function refreshLoginSetupLink(){
+  const link = document.getElementById('admin-setup-link');
+  if(link) link.style.display = adminExists() ? 'none' : 'block';
+}
+function toggleAdminSetup(){
+  const s = document.getElementById('admin-setup');
+  s.style.display = (s.style.display === 'none' || !s.style.display) ? 'block' : 'none';
+}
+
+async function setupFirstAdmin(){
+  if(adminExists()){ showToast('⚠️ An admin already exists on this device. Sign in instead.'); refreshLoginSetupLink(); return; }
+  const u = document.getElementById('setup-user').value.trim();
+  const p = document.getElementById('setup-pass').value;
+  const p2 = document.getElementById('setup-pass2').value;
+  if(!u || !p){ showToast('⚠️ Enter a username and password.'); return; }
+  if(p.length < 6){ showToast('⚠️ Use at least 6 characters.'); return; }
+  if(p !== p2){ showToast('⚠️ Passwords do not match.'); return; }
+  const a = loadAccounts();
+  if(findUser(a, u)){ showToast('⚠️ That username is taken.'); return; }
+  const salt = randSalt();
+  let hash;
+  try{ hash = await sha256Hex(salt + ':' + p); }
+  catch(e){ showToast('❌ Secure setup requires HTTPS or localhost.'); return; }
+  a.users.push({ u, role:'admin', salt, hash, fmt:'v2' });
+  if(!saveAccounts(a)) return;
+  startSession({ u, role:'admin' });
+  showToast('✅ Admin account created. You are signed in.');
+}
+
+// ----- ADMIN: ACCOUNT MANAGEMENT -----
+function renderAccounts(){
+  const list = document.getElementById('acc-list');
+  if(!list) return;
+  const a = loadAccounts();
+  list.textContent = '';
+  a.users.forEach(user => {
+    const row = document.createElement('div'); row.className = 'acc-row';
+
+    const head = document.createElement('div'); head.className = 'acc-head';
+    const name = document.createElement('span'); name.className = 'acc-name'; name.textContent = user.u;
+    const badge = document.createElement('span');
+    badge.className = 'acc-badge ' + (user.role === 'admin' ? 'acc-admin' : 'acc-sub');
+    badge.textContent = user.role === 'admin' ? 'Admin' : 'Sub-admin';
+    head.appendChild(name); head.appendChild(badge);
+    if(TB_SESSION && TB_SESSION.u === user.u){
+      const you = document.createElement('span'); you.className = 'acc-you'; you.textContent = 'you';
+      head.appendChild(you);
+    }
+    row.appendChild(head);
+
+    const actions = document.createElement('div'); actions.className = 'acc-actions';
+
+    const rename = document.createElement('button'); rename.className = 'acc-btn';
+    rename.textContent = 'Rename';
+    rename.onclick = () => adminRenameUser(user.u);
+    actions.appendChild(rename);
+
+    const chpw = document.createElement('button'); chpw.className = 'acc-btn';
+    chpw.textContent = 'Change password';
+    chpw.onclick = () => adminSetPassword(user.u);
+    actions.appendChild(chpw);
+
+    const del = document.createElement('button'); del.className = 'acc-btn acc-del';
+    del.textContent = 'Delete';
+    del.onclick = () => adminDeleteUser(user.u);
+    actions.appendChild(del);
+
+    row.appendChild(actions);
+    list.appendChild(row);
+  });
+}
+
+function requireAdmin(){
+  if(!TB_SESSION || TB_SESSION.role !== 'admin'){ showToast('⚠️ Admins only.'); return false; }
+  return true;
+}
+
+async function adminAddUser(){
+  if(!requireAdmin()) return;
+  const u = document.getElementById('acc-new-user').value.trim();
+  const p = document.getElementById('acc-new-pass').value;
+  const role = document.getElementById('acc-new-role').value === 'admin' ? 'admin' : 'subadmin';
+  if(!u || !p){ showToast('⚠️ Enter a username and password.'); return; }
+  if(p.length < 6){ showToast('⚠️ Use at least 6 characters.'); return; }
+  const a = loadAccounts();
+  if(findUser(a, u)){ showToast('⚠️ That username is taken.'); return; }
+  const salt = randSalt();
+  let hash;
+  try{ hash = await sha256Hex(salt + ':' + p); }catch(e){ showToast('❌ Secure action requires HTTPS or localhost.'); return; }
+  a.users.push({ u, role, salt, hash, fmt:'v2' });
+  if(!saveAccounts(a)) return;
+  document.getElementById('acc-new-user').value = '';
+  document.getElementById('acc-new-pass').value = '';
+  renderAccounts();
+  showToast('✅ Account "' + u + '" added (this device only).');
+}
+
+function adminRenameUser(oldU){
+  if(!requireAdmin()) return;
+  const a = loadAccounts();
+  const user = findUser(a, oldU);
+  if(!user) return;
+  const next = window.prompt('New username for "' + oldU + '":', oldU);
+  if(next === null) return;
+  const newU = next.trim();
+  if(!newU){ showToast('⚠️ Username cannot be empty.'); return; }
+  if(newU.toLowerCase() === oldU.toLowerCase()){ return; }
+  if(a.users.some(x => x !== user && x.u.toLowerCase() === newU.toLowerCase())){ showToast('⚠️ That username is taken.'); return; }
+  if(user.fmt === 'v1'){
+    showToast('⚠️ Change this account’s password first, then rename it.');
+    return;
+  }
+  user.u = newU;
+  if(!saveAccounts(a)) return;
+  if(TB_SESSION && TB_SESSION.u === oldU){
+    TB_SESSION.u = newU;
+    const who = document.getElementById('admin-whoami');
+    if(who) who.textContent = 'Signed in as ' + newU + ' · ' + (TB_SESSION.role === 'admin' ? 'Admin' : 'Sub-admin');
+  }
+  renderAccounts();
+  showToast('✅ Renamed to "' + newU + '".');
+}
+
+async function adminSetPassword(u){
+  if(!requireAdmin()) return;
+  const p = window.prompt('New password for "' + u + '" (min 6 characters):', '');
+  if(p === null) return;
+  if(p.length < 6){ showToast('⚠️ Use at least 6 characters.'); return; }
+  const a = loadAccounts();
+  const user = findUser(a, u);
+  if(!user) return;
+  const salt = randSalt();
+  try{ user.hash = await sha256Hex(salt + ':' + p); }
+  catch(e){ showToast('❌ Secure action requires HTTPS or localhost.'); return; }
+  user.salt = salt; user.fmt = 'v2';
+  if(!saveAccounts(a)) return;
+  renderAccounts();
+  showToast('✅ Password updated for "' + u + '" (this device only).');
+}
+
+function adminDeleteUser(u){
+  if(!requireAdmin()) return;
+  const a = loadAccounts();
+  const user = findUser(a, u);
+  if(!user) return;
+  if(TB_SESSION && TB_SESSION.u === user.u){ showToast('⚠️ You can’t delete the account you’re signed in with.'); return; }
+  if(user.role === 'admin' && a.users.filter(x => x.role === 'admin').length <= 1){
+    showToast('⚠️ Can’t delete the only admin account.'); return;
+  }
+  if(!window.confirm('Delete account "' + u + '"? This cannot be undone.')) return;
+  a.users = a.users.filter(x => x !== user);
+  if(!saveAccounts(a)) return;
+  renderAccounts();
+  showToast('\u{1f5d1}️ Account "' + u + '" deleted.');
+}
+
+// ----- SELF-SERVICE: CHANGE MY PASSWORD -----
+async function changeMyPassword(){
+  if(!TB_SESSION){ showToast('⚠️ Please sign in first.'); return; }
+  const cur = document.getElementById('mypw-current').value;
+  const nw = document.getElementById('mypw-new').value;
+  const nw2 = document.getElementById('mypw-new2').value;
+  if(!cur || !nw){ showToast('⚠️ Fill in every field.'); return; }
+  if(nw.length < 6){ showToast('⚠️ Use at least 6 characters.'); return; }
+  if(nw !== nw2){ showToast('⚠️ New passwords do not match.'); return; }
+  const a = loadAccounts();
+  const user = findUser(a, TB_SESSION.u);
+  if(!user){ showToast('❌ Account not found.'); return; }
+  let ok = false;
+  try{ ok = (await calcHash(user, cur)) === user.hash; }
+  catch(e){ showToast('❌ Secure action requires HTTPS or localhost.'); return; }
+  if(!ok){ showToast('❌ Current password is wrong.'); return; }
+  const salt = randSalt();
+  try{ user.hash = await sha256Hex(salt + ':' + nw); }
+  catch(e){ showToast('❌ Secure action requires HTTPS or localhost.'); return; }
+  user.salt = salt; user.fmt = 'v2';
+  if(!saveAccounts(a)) return;
+  ['mypw-current','mypw-new','mypw-new2'].forEach(id => { document.getElementById(id).value = ''; });
+  showToast('✅ Your password is updated (this device only).');
 }
 
 // ===== INIT =====

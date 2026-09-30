@@ -663,8 +663,8 @@
     <!-- Admin Header (shown after login) -->
     <div class="admin-header" id="admin-header" style="display:none">
       <div class="admin-logo">
-        ⚙️ Sub-Admin Panel
-        <span>The Boundary Restaurant — Content Manager</span>
+        ⚙️ Staff Panel
+        <span id="admin-whoami">The Boundary Restaurant — Content Manager</span>
       </div>
       <button class="close-admin" onclick="closeAdmin()">✕ Exit Panel</button>
     </div>
@@ -677,6 +677,17 @@
       <div class="af-grp"><label class="af-lbl">Password</label><input type="password" class="af-inp" id="adminPass" placeholder="Enter password" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()"></div>
       <button class="save-btn" onclick="doLogin()" style="width:100%;justify-content:center;margin-top:8px"><i class="fas fa-sign-in-alt"></i> Login to Panel</button>
       <button onclick="closeAdmin()" style="width:100%;margin-top:10px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px;border-radius:8px;cursor:pointer;font-family:'Exo 2',sans-serif">← Back to Website</button>
+      <div id="admin-setup-link" style="display:none;margin-top:16px;text-align:center">
+        <button class="staff-link" style="border:none;background:none;cursor:pointer;opacity:.75" onclick="toggleAdminSetup()">First time, or locked out? Set up an admin account</button>
+      </div>
+      <div id="admin-setup" style="display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px">
+        <h3 style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:6px">Create the first admin account</h3>
+        <p class="preview-warn"><strong>⚠️ This browser only.</strong> This login is stored on this device and is not real security — anyone with the page source can bypass it. Use a strong, unique password. For a login that protects the site across devices, ask your developer about the Supabase upgrade.</p>
+        <div class="af-grp"><label class="af-lbl">New admin username</label><input type="text" class="af-inp" id="setup-user" autocomplete="off"></div>
+        <div class="af-grp"><label class="af-lbl">Password</label><input type="password" class="af-inp" id="setup-pass" autocomplete="new-password"></div>
+        <div class="af-grp"><label class="af-lbl">Confirm password</label><input type="password" class="af-inp" id="setup-pass2" autocomplete="new-password"></div>
+        <button class="save-btn" style="width:100%;justify-content:center" onclick="setupFirstAdmin()"><i class="fas fa-user-shield"></i> Create admin &amp; sign in</button>
+      </div>
     </div>
 
     <!-- ADMIN PANEL (post-login) -->
@@ -691,6 +702,8 @@
         <button class="atab" onclick="switchAdminTab(this,'offers')">🎁 Offers Text</button>
         <button class="atab" onclick="switchAdminTab(this,'menu')">🍽️ Menu &amp; Prices</button>
         <button class="atab" onclick="switchAdminTab(this,'tax')">🧾 Taxes</button>
+        <button class="atab" id="atab-accounts" onclick="switchAdminTab(this,'accounts')" style="display:none">👥 Accounts</button>
+        <button class="atab" id="atab-mypw" onclick="switchAdminTab(this,'mypw')">🔑 My Password</button>
       </div>
 
       <!-- ---- TODAY'S MATCH ---- -->
@@ -891,6 +904,41 @@
           </div>
           <div class="af-grp"><label class="af-lbl">Note shown under the menu (leave blank to auto-generate)</label><input class="af-inp" id="tax-note" placeholder="Auto: All prices exclusive of 5% GST."></div>
           <button class="save-btn" onclick="saveTaxSettings()"><i class="fas fa-save"></i> Save tax note</button>
+        </div>
+      </div>
+
+      <!-- ---- ACCOUNTS (admin only) ---- -->
+      <div class="apanel" id="ap-accounts">
+        <div class="admin-card">
+          <h3>👥 Staff Accounts</h3>
+          <p class="preview-warn"><strong>⚠️ This browser only.</strong> Accounts and password changes are stored on <strong>this device</strong>. They do not sync to other phones or computers, and this login is not real security. For logins that work everywhere and actually protect the site, ask your developer about the Supabase upgrade.</p>
+          <div id="acc-list"></div>
+          <div style="border-top:1px solid var(--border);margin-top:18px;padding-top:18px">
+            <h3 style="font-size:1rem;margin-bottom:12px">➕ Add a new account</h3>
+            <div class="af-grid">
+              <div class="af-grp"><label class="af-lbl">Username</label><input class="af-inp" id="acc-new-user" autocomplete="off" placeholder="e.g. kitchen"></div>
+              <div class="af-grp"><label class="af-lbl">Role</label>
+                <select class="af-inp" id="acc-new-role">
+                  <option value="subadmin">Sub-admin (content manager)</option>
+                  <option value="admin">Admin (manages accounts)</option>
+                </select>
+              </div>
+            </div>
+            <div class="af-grp"><label class="af-lbl">Password</label><input type="password" class="af-inp" id="acc-new-pass" autocomplete="new-password" placeholder="Choose a strong password"></div>
+            <button class="save-btn" onclick="adminAddUser()"><i class="fas fa-user-plus"></i> Add account</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- MY PASSWORD (all logged-in users) ---- -->
+      <div class="apanel" id="ap-mypw">
+        <div class="admin-card">
+          <h3>🔑 Change my password</h3>
+          <p class="preview-warn"><strong>⚠️ This browser only.</strong> A new password set here works on <strong>this device</strong>. On another phone or computer the original login still applies until it is changed there too.</p>
+          <div class="af-grp"><label class="af-lbl">Current password</label><input type="password" class="af-inp" id="mypw-current" autocomplete="current-password"></div>
+          <div class="af-grp"><label class="af-lbl">New password</label><input type="password" class="af-inp" id="mypw-new" autocomplete="new-password"></div>
+          <div class="af-grp"><label class="af-lbl">Confirm new password</label><input type="password" class="af-inp" id="mypw-new2" autocomplete="new-password"></div>
+          <button class="save-btn" onclick="changeMyPassword()"><i class="fas fa-key"></i> Update my password</button>
         </div>
       </div>
 
